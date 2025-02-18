@@ -17,6 +17,10 @@ const HomePage = () => {
     navigate("/chat");
   };
 
+  const handleUpload = () => {
+    navigate("/upload");
+  };
+
   const downloadPdf = (pdfURL) => {
     const link = document.createElement("a");
     link.href = pdfURL;
@@ -33,16 +37,6 @@ const HomePage = () => {
       return result;
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const playVideoFullscreen = () => {
-    if (videoRef.current) {
-      videoRef.current.style.display = "block";
-      videoRef.current.requestFullscreen?.();
-      videoRef.current.play().catch((err) => {
-        console.error("Autoplay blocked: ", err);
-      });
     }
   };
 
@@ -83,46 +77,43 @@ const HomePage = () => {
   });
 
   return (
-    <div className="h-screen w-full flex items-center justify-center relative">
+    <div className="h-screen w-full flex items-center justify-center relative bg-stone-400 text-white">
       <div className="h-full flex flex-col gap-3 w-11/12">
         {/* ===========  First div =========== */}
-        <div className="h-[32%] 2xl:text-xl xl:text-lg lg:text-sm px-4 flex flex-col py-5 lg:py-1 font-normal overflow-auto">
+        <div className="h-[32%] 2xl:text-xl xl:text-lg lg:text-sm px-4 flex flex-col py-5 lg:py-1 font-normal overflow-auto bg-gray-700 mt-3">
           <div className="flex">
             Hello,&nbsp;
-            <div className="text-[#0000A0] font-semibold">{userName}!</div>
+            <div className="text-gray-300 font-semibold">{userName}!</div>
             <div className="absolute -top-2 left-[85%]">
               {nameForGuide !== "" && <Userinfo userName={nameForGuide} />}
             </div>
           </div>
-          <div className="flex 2xl:text-3xl lg:text-2xl font-bold text-[#0000A0]">
+          <div className="flex 2xl:text-3xl lg:text-2xl font-bold text-gray-400">
             Welcome to&nbsp;
-            <div className="text-[#0000A0] flex">
-              <p className="text-[#9DD563]">One</p>Asset!
+            <div className="text-[#b0b0d1] flex">
+              <p className="text-[#4c7383]">One</p>Asset!
             </div>
           </div>
-          <div className="text-[#0000A0] text-base">
+          <div className="text-white text-base">
             A smart virtual assistant ready to help you with..
           </div>
           <div className="flex gap-52 xl:gap-44 lg:gap-24 justify-center my-auto pt-4">
             <button
               onClick={() => handleNewChat()}
-              className="bg-[#0000A0] text-white w-72 2xl:h-14 lg:h-12 text-base rounded-full hover:bg-[#0058a0] flex items-center justify-start p-2"
+              className="bg-gray-700 text-white w-72 2xl:h-14 lg:h-12 text-base rounded-full hover:bg-gray-600 flex items-center justify-start p-2 shadow-custom-dark shadow-slate-800"
             >
-              <span className="xl:text-lg flex-shrink font-semibold text-center text-nowrap ml-14">
+              <span className="xl:text-lg flex-shrink font-semibold text-center text-nowrap ml-14 ">
                 Start New Chat
               </span>
               <div className="bg-white text-white text-xl w-10 xl:h-9 lg:h-9 flex items-center justify-center rounded-full ml-14">
                 <span className="flex items-center justify-center">
-                  <FaMessage
-                    color="#0000A0"
-                    className="shadow-custom-light shadow-slate-200 bg-none rounded-sm"
-                  />
+                  <FaMessage color="gray" className="rounded-sm" />
                 </span>
               </div>
             </button>
             <button
-              onClick={playVideoFullscreen}
-              className="bg-[#00d7ba] text-white w-72 2xl:h-14 lg:h-12 text-base rounded-full hover:bg-[#63c4b7] flex items-center justify-start p-2"
+              onClick={() => handleUpload()}
+              className="bg-gray-500 text-white w-76 2xl:h-14 lg:h-12 text-base rounded-full hover:bg-gray-400 flex items-center justify-start p-2 shadow-custom-dark shadow-slate-800"
             >
               <span className="xl:text-lg flex-shrink font-semibold text-center text-nowrap ml-10">
                 Upload Your Documents
@@ -136,7 +127,7 @@ const HomePage = () => {
                 </span>
               </div>
             </button>
-            <button
+            {/* <button
               onClick={() => {
                 downloadPdf(guide);
               }}
@@ -153,12 +144,11 @@ const HomePage = () => {
                   />
                 </span>
               </div>
-            </button>
+            </button> */}
           </div>
         </div>
         {/* ===========  Second div =========== */}
-        {/*  */}
-        <div className="mb-2 flex text-[#0000A0] shadow-custom-dark h-[24%] 2xl:text-base xl:text-sm lg:text-xs">
+        <div className="mb-2 flex text-gray-900 bg-gray-400 shadow-custom-dark shadow-gray-400 h-[24%] 2xl:text-base xl:text-sm lg:text-xs">
           <div className="w-full max-h-full overflow-auto">
             <div className="p-3 text-justify leading-relaxed">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
@@ -178,38 +168,31 @@ const HomePage = () => {
           </div>
         </div>
         {/* ===========  Third div =========== */}
-        <div className="h-[36%] bg-[#0000A0] text-white flex mb-2">
-          <div className="w-2/5 overflow-auto bg-stone-100 text-[#0000A0] font-bold 2xl:text-xl xl:text-lg p-2">
-            Lorem ipsum dolor sit amet.
-            <div className="flex justify-center xl:gap-6 lg:gap-2 2xl:text-base xl:text-sm lg:text-xs mt-4 ml-[2vw]">
-              <div className="flex flex-col gap-2 ">
-                <div className="flex flex-col items-center justify-center">
-                  <div className="bg-[#FFDC00] text-white rounded-full p-5 w-56 lg:w-48 2xl:h-14 xl:h-12 lg:h-10 flex items-center justify-center">
-                    Document 1
-                  </div>
-                </div>
-                <div className="flex flex-col gap-5 items-center justify-center">
-                  <div className="bg-[#FF8200] text-white rounded-full p-5 w-56 lg:w-48 2xl:h-14 xl:h-12 lg:h-10 flex items-center justify-center">
-                    Document 2
-                  </div>
-                </div>
-                <div className="flex flex-col gap-5 items-center justify-center">
-                  <div className="bg-[#AA231A] text-white rounded-full p-5 w-56 lg:w-48 2xl:h-14 xl:h-12 lg:h-10 flex items-center justify-center">
-                    Document 3
-                  </div>
-                </div>
+        <div className="h-[36%] text-gray-900 bg-stone-300 shadow-md flex mb-2">
+          <div className="w-2/5 overflow-auto  bg-gray-500 text-gray-100 font-bold 2xl:text-xl xl:text-lg p-2">
+            Available Documents.
+            <div className="flex justify-center xl:gap-6 lg:gap-2 2xl:text-base xl:text-sm lg:text-xs mt-4 ml-[2vw] text-gray-300">
+              <div className="flex flex-col gap-2">
+                {["Document 1", "Document 2", "Document 3"].map(
+                  (doc, index) => (
+                    <div
+                      key={index}
+                      className="bg-gray-700 text-white rounded-full p-4 w-56 text-center"
+                    >
+                      {doc}
+                    </div>
+                  )
+                )}
               </div>
               <div className="flex flex-col gap-2">
-                <div className="flex flex-col gap-5 items-center justify-center">
-                  <div className="bg-[#9DD563] text-white rounded-full px-8 2xl:py-2 xl:py-1 lg:py-2 xl:text-sm w-56 lg:w-48 2xl:h-14 xl:h-12 lg:h-10 text-center">
-                    Doument 4
+                {["Document 4", "Document 5"].map((doc, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-700 text-white rounded-full px-8 p-4 w-56 text-center"
+                  >
+                    {doc}
                   </div>
-                </div>
-                <div className="flex flex-col gap-5 items-center justify-center">
-                  <div className="bg-[#6C8933] text-white rounded-full 2xl:py-2 xl:py-1 lg:py-1 xl:text-sm px-6 w-56 lg:w-48 2xl:h-14 xl:h-12 lg:h-10 text-center">
-                    Document 5
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>

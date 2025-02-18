@@ -41,7 +41,7 @@ const Navbar = (props) => {
   const [backEndHistory, setBackEndHistory] = useState({}); // athena logic for history
 
   const openNavClass = "flex items-center gap-x-2";
-  const hoverClass = "hover: w-full hover:bg-[#365696]";
+  const hoverClass = "hover: w-full hover:bg-gray-500";
 
   const navigate = useNavigate();
   const goHome = () => {
@@ -216,7 +216,7 @@ const Navbar = (props) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 h-full bg-[#0000A0] text-[#ffffff] text-sm font-medium transition-all duration-300  shadow-custom-dark ${
+      className={`fixed top-0 left-0 h-full bg-gray-700 text-[#ffffff] text-sm font-medium transition-all duration-300  shadow-custom-dark ${
         navbarOpen ? "w-1/6" : "w-16"
       }`}
     >
@@ -243,14 +243,14 @@ const Navbar = (props) => {
           onClick={() => {
             handleNewChat();
           }}
-          className={`w-[85%] mx-auto p-3 cursor-pointer  bg-[#9DD563] font-bold text-lg text-[#0000A0] rounded-lg mb-5 ${
+          className={`w-[85%] mx-auto p-3 cursor-pointer  bg-[#9bc6d3] font-bold text-lg text-gray-800 rounded-lg mb-5 ${
             navbarOpen
               ? "flex items-start gap-4 mt-20"
               : "flex items-center justify-center mt-24"
-          } hover:bg-[rgb(160,239,129)]`}
+          } hover:bg-[#c5e2ec]`}
         >
           <div>
-            <BsChatDots size={24} color="white" />
+            <BsChatDots size={24} color="black" />
           </div>
           <p
             className={`transition-all duration-300 overflow-hidden ${
@@ -307,13 +307,13 @@ const Navbar = (props) => {
           className={`cursor-pointer ${
             navbarOpen
               ? "flex flex-col items-start justify-start gap-1"
-              : `flex items-center justify-center pl-5 mt-1 hover:bg-[#365696]`
+              : `flex items-center justify-center pl-5 mt-1 hover:bg-gray-500`
           } `}
         >
           <div
             className={`flex gap-2 ${
               navbarOpen
-                ? "p-3 mb-0 hover:bg-[#365696] w-full"
+                ? "p-3 mb-0 hover:bg-gray-500 w-full"
                 : "flex items-center justify-center"
             } `}
           >
@@ -339,11 +339,11 @@ const Navbar = (props) => {
           />
         </li>
         {/* ========= HISTORY ========= */}
-        <li className={`cursor-pointer ${!navbarOpen && "hover:bg-[#365696]"}`}>
+        <li className={`cursor-pointer ${!navbarOpen && "hover:bg-gray-500"}`}>
           <div
             className={`cursor-pointer ${
               navbarOpen
-                ? "flex p-3 justify-start gap-1 hover:bg-[#365696] w-full"
+                ? "flex p-3 justify-start gap-1 hover:bg-gray-500 w-full"
                 : "flex items-center justify-center ml-0 p-3"
             }`}
           >
@@ -371,7 +371,7 @@ const Navbar = (props) => {
                         fetchChat(key);
                         updateConversationHistory(conversationsArray);
                       }}
-                      className="relative rounded-md p-1 mt-2 text-sm flex items-center gap-1 w-full max-w-full cursor-pointer hover:bg-[#365696]"
+                      className="relative rounded-md p-1 mt-2 text-sm flex items-center gap-1 w-full max-w-full cursor-pointer hover:bg-gray-500"
                       onMouseEnter={() => setHoveredIndex(key)}
                       onMouseLeave={() => setHoveredIndex(null)}
                     >
@@ -382,7 +382,7 @@ const Navbar = (props) => {
                           onChange={handleEditInputChange}
                           onBlur={() => saveEdit(key)}
                           onKeyDown={(e) => e.key === "Enter" && saveEdit(key)}
-                          className="border-b-2 border-[#20ceb1] w-full p-1 focus:outline-none  bg-[#0000A0] focus:border-2 focus:border-slate-200"
+                          className="border-b-2 border-[#20ceb1] w-full p-1 focus:outline-none  bg-black focus:border-2 focus:border-slate-200"
                           autoFocus
                         />
                       ) : (
@@ -409,7 +409,7 @@ const Navbar = (props) => {
                       {optionsIndex === key && (
                         <div className="absolute top-full right-1 bg-[#ffffff] border p-2 rounded-xl z-50 flex flex-col mt-1 shadow-lg">
                           <button
-                            className="p-2 cursor-pointer  bg-[#9DD563] font-bold text-md text-[#0000A0] rounded-lg hover:bg-[rgb(160,239,129)]"
+                            className="p-2 cursor-pointer  bg-[#9bc6d3] font-bold text-md text-black rounded-lg hover:bg-[#c5e2ec]"
                             onClick={(e) => {
                               e.stopPropagation();
                               renameQuestion(key, sessionName);
@@ -421,7 +421,7 @@ const Navbar = (props) => {
                             </div>
                           </button>
                           <button
-                            className="p-2 cursor-pointer  bg-[#9DD563] font-bold text-md text-[#0000A0] rounded-lg mt-1 hover:bg-[rgb(160,239,129)]"
+                            className="p-2 cursor-pointer  bg-[#9bc6d3] font-bold text-md text-black rounded-lg mt-1 hover:bg-[#c5e2ec]"
                             onClick={(e) => {
                               e.stopPropagation();
                               deleteConv(key);
@@ -434,7 +434,7 @@ const Navbar = (props) => {
                             </div>
                           </button>
                           <button
-                            className="p-2 cursor-pointer  bg-[#9DD563] font-bold text-md text-[#0000A0] rounded-lg mt-1 hover:bg-[rgb(160,239,129)]"
+                            className="p-2 cursor-pointer  bg-[#9bc6d3] font-bold text-md text-black rounded-lg mt-1 hover:bg-[#c5e2ec]"
                             onClick={(e) => {
                               e.stopPropagation();
                               saveToFavorites(key, conversation?.favorite);
@@ -456,17 +456,17 @@ const Navbar = (props) => {
         </li>
       </ul>
       {showPopup && (
-        <div className="fixed bottom-14 left-1 transform  bg-[#9DD563] text-[#0000A0] p-2 rounded-lg shadow-md italic">
+        <div className="fixed bottom-14 left-1 transform  bg-[#9bc6d3] text-black p-2 rounded-lg shadow-md italic">
           Conversation saved to favorites!
         </div>
       )}
       {showFavPopup && (
-        <div className="fixed bottom-14 left-1 transform  bg-[#9DD563] text-[#0000A0] p-2 rounded-lg shadow-md italic">
+        <div className="fixed bottom-14 left-1 transform  bg-[#9bc6d3] text-black p-2 rounded-lg shadow-md italic">
           Conversation is already in favorites!
         </div>
       )}
       <div onClick={goHome} className="fixed bottom-2 left-3 cursor-pointer">
-        <ImHome size={30} color="#9DD563" className="hover:opacity-80" />
+        <ImHome size={30} color="white" className="hover:opacity-80" />
       </div>
     </div>
   );

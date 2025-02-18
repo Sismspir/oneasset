@@ -35,16 +35,16 @@ const UserGuidePopUp = () => {
       <div className="m-3 rounded-md mx-auto p-2 bg-white">
         <div className="flex items-center justify-center text-2xl ">
           Hello,&nbsp;
-          <span className="text-[#0000A0] font-semibold"> {userName}!</span>
+          <span className="text-gray-700 font-semibold"> {userName}!</span>
         </div>
-        <div className="text-[#0000A0] font-semibold text-5xl text-center mb-8">
-          Welcome to <span className="text-[#9DD563]">One</span>Asset!
+        <div className="text-gray-700 font-semibold text-5xl text-center mb-8">
+          Welcome to <span className="text-gray-300">One</span>Asset!
           <div className="text-base">
             A smart virtual assistant ready to help you.
           </div>
         </div>
         <div className="flex gap-8 border-2w-full">
-          <div className="flex flex-col bg-[#0000A0] text-white text-lg w-1/2 h-[20rem] px-3 py-3">
+          <div className="flex flex-col bg-[#9191b8] text-black text-lg w-1/2 h-[20rem] px-3 py-3">
             <div className="text-2xl font-semibold mb-4">
               Gen AI & Technologies used
             </div>
@@ -59,7 +59,7 @@ const UserGuidePopUp = () => {
               capabilities into applications, websites, and chatbots.
             </div>
           </div>
-          <div className="flex flex-col bg-[#0000A0] text-white text-lg w-1/2 h-[20rem] px-3 py-3">
+          <div className="flex flex-col bg-gray-700 text-white text-lg w-1/2 h-[20rem] px-3 py-3">
             <div className="text-2xl font-semibold mb-4">What is OneAsset?</div>
             <div className="text-justify">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem,
@@ -77,7 +77,7 @@ const UserGuidePopUp = () => {
             onClick={() => {
               downloadPdf(guide);
             }}
-            className="bg-[#9DD563] text-[#0000A0] w-72 h-18 text-base rounded-full hover:bg-[#afec6d] flex items-center justify-start p-2"
+            className="bg-gray-300 text-gray-700 w-72 h-18 text-base rounded-full hover:bg-stone-200 flex items-center justify-start p-2"
           >
             <span className="font-xs flex-shrink font-semibold text-center overflow-hidden ml-14 ">
               User Manual
@@ -93,12 +93,12 @@ const UserGuidePopUp = () => {
             href="https://www.google.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-72 h-18 text-[#0000A0] text-base rounded-full bg-[#ffffff] hover:bg-[#afec6d] flex items-center justify-between gap-14 p-2 border-2 border-[#9DD563]"
+            className="w-72 h-18 text-gray-700 text-base rounded-full bg-[#ffffff] hover:bg-stone-200 flex items-center justify-between gap-14 p-2 border-2 border-gray-300"
           >
             <span className="font-xs flex-shrink text-ellipsis text-center overflow-hidden ml-10">
               Contact the Expert
             </span>
-            <div className="bg-[#0000A0] text-white text-xl w-10 h-10 flex items-center justify-center rounded-full ">
+            <div className="bg-gray-700 text-white text-xl w-10 h-10 flex items-center justify-center rounded-full ">
               <span className="flex items-center justify-center">
                 <FaChevronRight className="rounded-full" />
               </span>

@@ -3,6 +3,7 @@ import App from "./App";
 import Login from "./components/Login";
 import HomePage from "./components/HomePage";
 import AlertContainer from "./components/alerts/AlertContainer";
+import Upload from "./components/Upload";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import { useState } from "react";
 
@@ -26,6 +27,7 @@ function MainApp() {
           <Route index element={<HomePage />} />
           <Route path="/chat" element={<App />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/upload" element={<Upload />} />
         </Routes>
       </Router>
     </AlertContainer>

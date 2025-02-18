@@ -9,7 +9,7 @@ const Userinfo = (props) => {
   return (
     <div className="mt-8 flex flex-col relative z-50">
       <div className="flex gap-x-2">
-        <div className="bg-[#0000A0]  text-white font-medium rounded-full text-lg py-1 px-2">
+        <div className="bg-[#353549]  text-white font-medium rounded-full text-lg py-1 px-2">
           {(userName != undefined || !isNaN(userName)) &&
             userName?.split(".")[0]?.charAt(0)?.toUpperCase() +
               userName?.split(".")[1]?.charAt(0)?.toUpperCase()}
@@ -20,7 +20,7 @@ const Userinfo = (props) => {
           }}
           className="my-auto"
         >
-          <IoIosArrowDown size={22} color="#2c2a80" />
+          <IoIosArrowDown size={22} color="black" />
         </button>
       </div>
       <div className="absolute z-10 left-0 right-0 top-10 b">

@@ -33,7 +33,7 @@ const Screen = (props) => {
   const [selectedImageSrc, setSelectedImageSrc] = useState(null);
   const chatContainerRef = useRef(null);
   const stylesQ =
-    "w-1/3 max-w-[24rem] bg-[rgb(134,212,104)] hover:bg-[rgb(155,217,131)] text-blue-900 font-medium rounded-xl flex gap-10 items-center justify-center shadow-custom-dark cursor-pointer h-[4.5rem] min-h-[4.5rem]";
+    "w-1/3 max-w-[24rem] bg-gray-300 hover:bg-gray-200 text-gray-800 font-medium rounded-xl flex gap-10 items-center justify-center shadow-custom-dark cursor-pointer h-[4.5rem] min-h-[4.5rem]";
   const [fullName, setFullname] = useState("");
   const textareaRef = useRef(null);
   const [responseIsComplete, setResponseIsComplete] = useState(null);
@@ -231,7 +231,7 @@ const Screen = (props) => {
   }, [responseIsComplete]);
 
   return (
-    <div className="h-full w-full flex flex-col">
+    <div className="h-full w-full flex flex-col bg-stone-300">
       {/* Main Screen before user types */}
       {!userTypes && (
         <div className="flex-1 flex flex-col items-center justify-center">
@@ -303,7 +303,7 @@ const Screen = (props) => {
                   >
                     {/* Question */}
                     <div className="justify-end my-2 break-words flex">
-                      <div className="bg-[#0000A0] text-white p-4 rounded-lg flex overflow-hidden">
+                      <div className="bg-gray-700 text-white p-4 rounded-lg flex overflow-hidden">
                         <div className="bg-[#ffffff] rounded-full text-lg  text-black text-center px-2 py-1 h-9">
                           {fullName}
                         </div>
@@ -409,7 +409,7 @@ const Screen = (props) => {
                           </div>
                           {/* Conditional Pop-up */}
                           {entry.showPopup && (
-                            <div className="transform bg-[#bcdf97] font-semibold text-[#0000A0] text-center my-2 p-2 rounded-lg shadow-md italic">
+                            <div className="transform bg-[#bcdf97] font-semibold text-gray-700 text-center my-2 p-2 rounded-lg shadow-md italic">
                               Your rating has been successfully submitted!
                             </div>
                           )}
@@ -439,14 +439,14 @@ const Screen = (props) => {
                             {entry?.citations &&
                               Object?.keys(entry?.citations)?.length != 0 && (
                                 <button
-                                  className="h-12 w-28 rounded-xl bg-[#0000A0] hover:bg-[#0053a0] flex items-center justify-center text-[#ffffff] font-medium p-2 "
+                                  className="h-12 w-28 rounded-xl bg-gray-700 hover:bg-[#0053a0] flex items-center justify-center text-[#ffffff] font-medium p-2 "
                                   onClick={() => handlePdfToggle(index)}
                                 >
                                   {/* Check if citations available before displaying the button */}
                                   {entry?.isPdfOpen ? "Hide PDF" : "Show PDF"}
                                 </button>
                               )}
-                            {entry?.image != null &&
+                            {/* {entry?.image != null &&
                               entry.image !== "" &&
                               entry.image !== "nan" &&
                               entry.image !== "No Image" && (
@@ -487,7 +487,7 @@ const Screen = (props) => {
                                     </div>
                                   )}
                                 </div>
-                              )}
+                              )} */}
                           </div>
                         </div>
                       </div>
@@ -518,7 +518,7 @@ const Screen = (props) => {
             {isLoading && (
               <div className="flex flex-col items-center gap-1 my-2 max-h-96">
                 <div className="justify-end my-2 w-full max-w-full flex">
-                  <div className="bg-[#0000A0] text-white p-4 rounded-lg break-words flex max-w-[95%] overflow-hidden">
+                  <div className="bg-gray-700 text-white p-4 rounded-lg break-words flex max-w-[95%] overflow-hidden">
                     <div className="bg-[#ffffff] text-black rounded-full text-lg text-center px-2 py-1 h-9">
                       {fullName}
                     </div>
@@ -553,7 +553,7 @@ const Screen = (props) => {
             onSubmit={handleInputSubmit}
           >
             <textarea
-              className={`peer m-4 bg-[#ffffff] outline-none placeholder:italic  ${
+              className={`peer m-4 bg-stone-300 outline-none placeholder:italic placeholder:text-[#797575] ${
                 placeholder !== startPlaceHolder &&
                 "placeholder:font-normal placeholder:text-[#000000]"
               }`}

@@ -52,9 +52,9 @@ const ConversationLibrary = () => {
   };
 
   return (
-    <div className="max-w-fit">
+    <div className="max-w-full h-full w-full">
       <div className=" rounded-md px-20 bg-white w-full h-[90.25vh] ">
-        <div className="text-[#0000A0] font-bold text-2xl">
+        <div className="text-gray-600 font-bold text-2xl">
           Welcome to OneAsset Library!
         </div>
         <p className="text-black font-medium mb-4">
@@ -70,11 +70,11 @@ const ConversationLibrary = () => {
             />
             <button
               onClick={() => downloadPdf(citiationsPdfURL)}
-              className="w-72 h-14 text-white font-normal rounded-full bg-[#0000A0] hover:bg-[#0049d0] flex items-center justify-center gap-2 px-8"
+              className="w-72 h-14 text-white font-normal rounded-full bg-gray-600 hover:bg-gray-300 flex items-center justify-center gap-2 px-8"
             >
-              Download D4C Guidelines
+              Download 1st Document
               <div className="bg-[#ffffff] text-white text-xl flex items-center justify-center rounded-full -mr-5">
-                <span className="flex items-center text-[#0000A0] justify-center p-2">
+                <span className="flex items-center text-gray-600 justify-center p-2">
                   <FaChevronRight size={20} />
                 </span>
               </div>
@@ -83,13 +83,13 @@ const ConversationLibrary = () => {
               href="mailto:gytis.kulbickas@effem.com?subject=Your%20Subject&body=This%20is%20the%20email%20body"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-72 h-18 text-[#0000A0] text-base rounded-full bg-[#00D7B9] hover:bg-[#81dfc3] flex items-center justify-between gap-14 p-2"
+              className="w-72 h-18 text-gray-600 text-base rounded-full bg-gray-400 hover:bg-stone-400 flex items-center justify-between gap-14 p-2"
             >
               <span className="font-xs flex-shrink text-ellipsis text-center overflow-hidden ml-10">
                 Lorem ipsum dolor sit amet.
               </span>
               <div className="bg-[#ffffff] text-white text-xl w-10 h-10 flex items-center justify-center rounded-full">
-                <span className="flex items-center text-[#0000A0] justify-center">
+                <span className="flex items-center text-gray-600 justify-center">
                   <FaChevronRight />
                 </span>
               </div>
@@ -103,11 +103,11 @@ const ConversationLibrary = () => {
             />
             <button
               onClick={() => downloadPdf(isoPdfURL)}
-              className="w-72 h-14 text-white font-normal rounded-full bg-[#0000A0] hover:bg-[#0049d0] flex items-center justify-center gap-2 px-8"
+              className="w-72 h-14 text-white font-normal rounded-full bg-gray-600 hover:bg-gray-300 flex items-center justify-center gap-2 px-8"
             >
-              Download ISO ​Standards document
+              Download 2nd Document
               <div className="bg-[#ffffff] text-white text-xl flex items-center justify-center rounded-full -mr-5">
-                <span className="flex items-center text-[#0000A0] justify-center p-2">
+                <span className="flex items-center text-gray-600 justify-center p-2">
                   <FaChevronRight size={20} />
                 </span>
               </div>
@@ -116,13 +116,13 @@ const ConversationLibrary = () => {
               href="mailto:gytis.kulbickas@effem.com?subject=Your%20Subject&body=This%20is%20the%20email%20body"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-72 h-18 text-[#0000A0] text-base rounded-full bg-[#00D7B9] hover:bg-[#81dfc3] flex items-center justify-between gap-14 p-2"
+              className="w-72 h-18 text-gray-600 text-base rounded-full bg-gray-400 hover:bg-stone-400 flex items-center justify-between gap-14 p-2"
             >
               <span className="font-xs flex-shrink text-ellipsis text-center overflow-hidden ml-10">
                 Lorem ipsum dolor sit amet.
               </span>
               <div className="bg-[#ffffff] text-white text-xl w-10 h-10 flex items-center justify-center rounded-full">
-                <span className="flex items-center text-[#0000A0] justify-center">
+                <span className="flex items-center text-gray-600 justify-center">
                   <FaChevronRight />
                 </span>
               </div>
@@ -136,11 +136,11 @@ const ConversationLibrary = () => {
             />
             <button
               onClick={() => downloadMarsGlobal(Protocol, MarsGlobal2)}
-              className="w-72 h-14 text-white font-normal rounded-full bg-[#0000A0] hover:bg-[#0049d0] flex items-center justify-center gap-2 px-8"
+              className="w-72 h-14 text-white font-normal rounded-full bg-gray-600 hover:bg-gray-300 flex items-center justify-center gap-2 px-8"
             >
-              Download Claims ​documents
+              Download 3rd Document
               <div className="bg-[#ffffff] text-white text-xl flex items-center justify-center rounded-full -mr-5">
-                <span className="flex items-center text-[#0000A0] justify-center p-2">
+                <span className="flex items-center text-gray-600 justify-center p-2">
                   <FaChevronRight size={20} />
                 </span>
               </div>
@@ -149,13 +149,13 @@ const ConversationLibrary = () => {
               href="mailto:gytis.kulbickas@effem.com?subject=Your%20Subject&body=This%20is%20the%20email%20body"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-72 h-18 text-[#0000A0] text-base rounded-full bg-[#00D7B9] hover:bg-[#81dfc3] flex items-center justify-between gap-14 p-2"
+              className="w-72 h-18 text-gray-600 text-base rounded-full bg-gray-400 hover:bg-stone-400 flex items-center justify-between gap-14 p-2"
             >
               <span className="font-xs flex-shrink text-ellipsis text-center overflow-hidden ml-10">
                 Lorem ipsum dolor sit amet.
               </span>
               <div className="bg-[#ffffff] text-white text-xl w-10 h-10 flex items-center justify-center rounded-full">
-                <span className="flex items-center text-[#0000A0] justify-center">
+                <span className="flex items-center text-gray-600 justify-center">
                   <FaChevronRight />
                 </span>
               </div>
@@ -172,21 +172,21 @@ const ConversationLibrary = () => {
             />
             <button
               onClick={() => downloadPdf(MarsGlobal)}
-              className="w-72 h-14 text-white font-normal rounded-full bg-[#0000A0] hover:bg-[#0049d0] flex items-center justify-center gap-2 px-8 cursor-pointer"
+              className="w-72 h-14 text-white font-normal rounded-full bg-gray-600 hover:bg-gray-300 flex items-center justify-center gap-2 px-8 cursor-pointer"
             >
-              Download the Sustainable Packaging Transcript
+              Download 4th Document
               <div className="bg-[#ffffff] text-white text-xl flex items-center justify-center rounded-full -mr-5">
-                <span className="flex items-center text-[#0000A0] justify-center p-2">
+                <span className="flex items-center text-gray-600 justify-center p-2">
                   <FaChevronRight size={20} />
                 </span>
               </div>
             </button>
-            <div className="w-72 h-30 text-blue-900 text-sm rounded-full bg-[#00D7B9] hover:bg-[#81dfc3] flex items-center justify-center gap-2 cursor-pointer">
+            <div className="w-72 h-30 text-stone-900 text-sm rounded-full bg-gray-400 hover:bg-stone-400 flex items-center justify-center gap-2 cursor-pointer">
               <span className="font-xs font-medium flex-shrink overflow-hidden text-ellipsis whitespace-nowrap text-center p-4">
                 Lorem ipsum dolor sit amet.
               </span>
               <div className="bg-[#ffffff] text-white text-xl flex items-center justify-center rounded-full mr-3">
-                <span className="flex items-center text-[#0000A0] justify-center p-2">
+                <span className="flex items-center text-gray-600 justify-center p-2">
                   <FaChevronRight size={20} />
                 </span>
               </div>
@@ -201,21 +201,21 @@ const ConversationLibrary = () => {
             />
             <button
               onClick={() => downloadPdf(wastePdfURL)}
-              className="w-72 h-14 text-white font-normal rounded-full bg-[#0000A0] hover:bg-[#0049d0] flex items-center justify-center gap-2 px-8 cursor-pointer"
+              className="w-72 h-14 text-white font-normal rounded-full bg-gray-600 hover:bg-gray-300 flex items-center justify-center gap-2 px-8 cursor-pointer"
             >
-              Download the Waste Management Transcript
+              Download 5th Document
               <div className="bg-[#ffffff] text-white text-xl flex items-center justify-center rounded-full absolute right-3">
-                <span className="flex items-center text-[#0000A0] justify-center p-2">
+                <span className="flex items-center text-gray-600 justify-center p-2">
                   <FaChevronRight size={20} />
                 </span>
               </div>
             </button>
-            <div className="w-72 h-30 text-blue-900 text-sm rounded-full bg-[#00D7B9] hover:bg-[#81dfc3] flex items-center justify-center gap-2 cursor-pointer">
+            <div className="w-72 h-30 text-stone-900 text-sm rounded-full bg-gray-400 hover:bg-stone-400 flex items-center justify-center gap-2 cursor-pointer">
               <span className="font-xs font-medium flex-shrink overflow-hidden text-ellipsis whitespace-nowrap text-center p-4">
                 Lorem ipsum dolor sit amet.
               </span>
               <div className="bg-[#ffffff] text-white text-xl flex items-center justify-center rounded-full mr-3">
-                <span className="flex items-center text-[#0000A0] justify-center p-2">
+                <span className="flex items-center text-gray-600 justify-center p-2">
                   <FaChevronRight size={20} />
                 </span>
               </div>

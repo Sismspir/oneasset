@@ -128,7 +128,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="flex h-screen font-sans ">
+    <div className="flex h-screen font-sans bg-stone-300">
       {/* ============== Navbar ============== */}
       <div className={`${navbarOpen ? "w-1/6" : "w-16"} ${widthClass}  `}>
         <Navbar
@@ -149,7 +149,7 @@ const App = () => {
           navbarOpen ? "w-5/6" : "w-[calc(100%-4rem)]"
         } ${widthClass}`}
       >
-        <div className=" h-full w-full flex flex-col items-center bg-[#ffffff]">
+        <div className=" h-full w-full flex flex-col items-center bg-stone-300">
           <div className="w-full max-h-18 flex items-center">
             {/* Logo Div */}
             {userTypes && (
