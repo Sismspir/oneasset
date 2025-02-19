@@ -78,7 +78,7 @@ const Rate = (props) => {
   };
 
   return (
-    <div className="mt-4 h-34 rounded-xl bg-[#0000A0] relative">
+    <div className="mt-4 h-34 rounded-xl bg-[#595c5e] relative">
       <div className="p-3 text-white">Why did you choose this rating?</div>
 
       {/* Display selectable options */}

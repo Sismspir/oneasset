@@ -231,15 +231,15 @@ const Screen = (props) => {
   }, [responseIsComplete]);
 
   return (
-    <div className="h-full w-full flex flex-col bg-stone-300">
+    <div className="h-full w-full flex flex-col bg-stone-200">
       {/* Main Screen before user types */}
       {!userTypes && (
-        <div className="flex-1 flex flex-col items-center justify-center">
+        <div className="flex-1 flex flex-col items-center justify-center ">
           <div className="rounded-full w-48">
             <img
               src={logo}
               alt="Logo"
-              className="size-48 mx-auto my-auto p-4"
+              className="size-24 mx-auto my-auto rounded-full mb-4"
             />
           </div>
           <div>
@@ -254,7 +254,7 @@ const Screen = (props) => {
               Try one of the examples below or type your own prompt!
             </p>
           </div>
-          <div className="flex items-center justify-center gap-4 mb-4 w-full">
+          {/* <div className="flex items-center justify-center gap-4 mb-4 w-full">
             <div
               className={stylesQ}
               onClick={() =>
@@ -281,7 +281,7 @@ const Screen = (props) => {
             >
               Preselected question 3.
             </div>
-          </div>
+          </div> */}
         </div>
       )}
 
@@ -303,7 +303,7 @@ const Screen = (props) => {
                   >
                     {/* Question */}
                     <div className="justify-end my-2 break-words flex">
-                      <div className="bg-gray-700 text-white p-4 rounded-lg flex overflow-hidden">
+                      <div className="bg-gray-600 text-white p-4 rounded-lg flex overflow-hidden">
                         <div className="bg-[#ffffff] rounded-full text-lg  text-black text-center px-2 py-1 h-9">
                           {fullName}
                         </div>
@@ -320,7 +320,7 @@ const Screen = (props) => {
                           <img
                             src={logo}
                             alt="Logo"
-                            className="size-22 mx-auto my-auto p-3"
+                            className="size-14 mx-auto my-auto rounded-full"
                           />
                         </div>
                         <div className="text-black p-4 rounded-lg shadow-md max-w-3xl w-full break-words overflow-hidden whitespace-pre-wrap">
@@ -439,7 +439,7 @@ const Screen = (props) => {
                             {entry?.citations &&
                               Object?.keys(entry?.citations)?.length != 0 && (
                                 <button
-                                  className="h-12 w-28 rounded-xl bg-gray-700 hover:bg-[#0053a0] flex items-center justify-center text-[#ffffff] font-medium p-2 "
+                                  className="h-12 w-28 rounded-xl bg-gray-600 hover:bg-[#0053a0] flex items-center justify-center text-[#ffffff] font-medium p-2 "
                                   onClick={() => handlePdfToggle(index)}
                                 >
                                   {/* Check if citations available before displaying the button */}
@@ -518,7 +518,7 @@ const Screen = (props) => {
             {isLoading && (
               <div className="flex flex-col items-center gap-1 my-2 max-h-96">
                 <div className="justify-end my-2 w-full max-w-full flex">
-                  <div className="bg-gray-700 text-white p-4 rounded-lg break-words flex max-w-[95%] overflow-hidden">
+                  <div className="bg-gray-600 text-white p-4 rounded-lg break-words flex max-w-[95%] overflow-hidden">
                     <div className="bg-[#ffffff] text-black rounded-full text-lg text-center px-2 py-1 h-9">
                       {fullName}
                     </div>
@@ -553,7 +553,7 @@ const Screen = (props) => {
             onSubmit={handleInputSubmit}
           >
             <textarea
-              className={`peer m-4 bg-stone-300 outline-none placeholder:italic placeholder:text-[#797575] ${
+              className={`peer m-4 bg-stone-200 outline-none placeholder:italic placeholder:text-[#797575] ${
                 placeholder !== startPlaceHolder &&
                 "placeholder:font-normal placeholder:text-[#000000]"
               }`}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 // import ImageResize from "quill-image-resize-module-react"; // Import the image resize module
@@ -35,107 +36,59 @@ const Upload = () => {
     }
 
     setUploading(true);
+    setProgress(0);
 
     const formData = new FormData();
     formData.append("file", newArticle.file);
-    console.log(`before sending the request ${formData}`);
+
     try {
+      // Start listening for progress updates
+      const eventSource = new EventSource("http://localhost:8000/progress");
+
+      eventSource.onmessage = (event) => {
+        const progressValue = parseInt(event.data, 10);
+        setProgress(progressValue);
+        if (progressValue >= 100) {
+          eventSource.close();
+          setUploading(false);
+          console.log();
+          alert(`The document was successfully uploaded`);
+        }
+      };
+
+      // Send file to back-end
       const response = await fetch("http://localhost:8000/process_pdf", {
         method: "POST",
         body: formData,
       });
 
       const data = await response.json();
-
-      // setProgress(10); // Start progress bar
-      // const requestId = data.request_id;
-
-      // const interval = setInterval(async () => {
-      //   const res = await fetch(`http://localhost:8000/progress/${requestId}`);
-      //   const progressData = await res.json();
-      //   setProgress(progressData.progress);
-
-      //   if (progressData.progress >= 100) {
-      //     clearInterval(interval);
-      //     alert("Processing complete!");
-      //   }
-      // }, 1000);
-
-      alert(data.message);
-      setNewArticle({ title: "", file: null, image: null, summary: "" });
-      setSelectedFields([]);
+      console.log(data.message);
     } catch (error) {
-      console.error("Error uploading article:", error);
       alert(`Failed to upload article: ${error.message}`);
-    } finally {
-      setUploading(false);
-      alert(`File was uploaded successfully!`);
     }
   };
 
-  const handleSaveEdit = async () => {
-    setUploading(true);
-    const formData = new FormData();
+  const navigate = useNavigate();
 
-    formData.append("title", editArticle.title);
-    formData.append("content_html", editArticle.contentHtml);
-    formData.append("summary", editArticle.summary); // Add summary
-
-    if (editArticle.image) {
-      formData.append("image", editArticle.image);
-    }
-
-    try {
-      const response = await fetch(
-        `http://localhost:5000/articles/${editArticle.id}`,
-        {
-          method: "PUT",
-          body: formData,
-        }
-      );
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error(`Error: ${response.status} - ${errorText}`);
-        alert(`Failed to update article: ${errorText}`);
-        return;
-      }
-
-      alert("Article updated successfully!");
-      setEditArticle({
-        id: null,
-        title: "",
-        contentHtml: "",
-        image: null,
-        summary: "",
-      });
-    } catch (error) {
-      console.error("Error updating article:", error);
-      alert(`Failed to update article: ${error.message}`);
-    } finally {
-      setUploading(false);
-    }
+  const goHome = () => {
+    navigate("/home");
   };
 
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, 3, false] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["link", "image", "video"],
-      ["clean"],
-    ],
-    imageResize: {}, // Enable image resizing
-  };
+  // useEffect(() => {
+  //   uploading &&
+  //     progress == 100 &&
+  //     alert(`The document was successfully uploaded`);
+  // }, [uploading]);
 
   return (
-    <div className="container mx-auto px-4 py-8 ">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+    <div className="container mx-auto px-4 py-8 -mt-64">
+      <h1 className="text-3xl font-bold text-gray-800 mb-10 text-center">
         Upload Documents
       </h1>
 
       {/* New or Edit Article Form */}
-      <div className="mb-8 bg-white shadow-lg rounded-lg p-6">
+      <div className=" bg-white shadow-lg rounded-lg p-6">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
           Upload New Document
         </h2>
@@ -148,7 +101,6 @@ const Upload = () => {
               onChange={(value) =>
                 setEditArticle((prev) => ({ ...prev, contentHtml: value }))
               }
-              modules={modules}
               className="w-full border border-gray-300 rounded-lg shadow-sm"
             />
           )}
@@ -178,29 +130,38 @@ const Upload = () => {
               </div>
             </div>
           </div>
-
-          <button
-            onClick={editArticle.id ? handleSaveEdit : handleUpload}
-            disabled={uploading}
-            className={`bg-[#001529] hover:bg-[#314f6c] text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ${
-              uploading ? "cursor-not-allowed" : ""
-            }`}
-          >
-            {uploading
-              ? "Uploading..."
-              : editArticle.id
-              ? "Save Changes"
-              : "Upload Document"}
-          </button>
-          {/* 
-          <div className="w-full bg-gray-200 rounded-full mt-5">
-            <div
-              className="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
-              style={{ width: `${progress}%` }}
+          <div className="flex justify-between">
+            <button
+              onClick={handleUpload}
+              disabled={uploading}
+              className={`bg-[#001529] hover:bg-[#314f6c] text-white font-bold  py-1 px-3 rounded-lg shadow-md transition duration-300 ${
+                uploading ? "cursor-not-allowed" : ""
+              }`}
             >
-              {progress}%
+              {uploading
+                ? "Uploading..."
+                : editArticle.id
+                ? "Save Changes"
+                : "Upload Document"}
+            </button>
+            <button
+              onClick={goHome}
+              className="mt-10 cursor-pointer bg-[#445754] hover:bg-[#314f6c] text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300"
+            >
+              Back To Homepage
+            </button>
+          </div>
+
+          {uploading && (
+            <div className="w-full bg-[#868888] rounded-r-full mt-5">
+              <div
+                className="bg-green-600 text-sm font-sold text-white text-center py-2 pl-2 leading-none rounded-r-full"
+                style={{ width: `${progress}%` }}
+              >
+                {progress}%
+              </div>
             </div>
-          </div> */}
+          )}
         </div>
       </div>
     </div>

@@ -26,8 +26,8 @@ function MainApp() {
         <Routes>
           <Route index element={<HomePage />} />
           <Route path="/chat" element={<App />} />
+          <Route path="/upload" element={<App />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/upload" element={<Upload />} />
         </Routes>
       </Router>
     </AlertContainer>

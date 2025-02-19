@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./index.css";
 import PropTypes from "prop-types";
 import { startNewChat } from "./api/startNewChat";
@@ -10,9 +11,11 @@ import UserGuidePopUp from "./components/popUps/UserGuidePopUp";
 import Navbar from "./components/Navbar";
 import logo from "/packImages/pack.png";
 import Screen from "./components/Screen";
+import Upload from "./components/Upload";
 import Userinfo from "./components/Userinfo";
 
 const App = () => {
+  const location = useLocation();
   const [userName, setUsername] = useState("");
   const [navbarOpen, setNavbarOpen] = useState(true);
   const [userTypes, setUserTypes] = useState(false);
@@ -141,6 +144,7 @@ const App = () => {
           toggleConversationPicked={toggleConversationPicked}
           boolFetchHistory={boolFetchHistory}
           userName={userName}
+          uploadVisible={location.pathname === "/upload"}
         />
       </div>
 
@@ -149,7 +153,7 @@ const App = () => {
           navbarOpen ? "w-5/6" : "w-[calc(100%-4rem)]"
         } ${widthClass}`}
       >
-        <div className=" h-full w-full flex flex-col items-center bg-stone-300">
+        <div className=" h-full w-full flex flex-col items-center bg-stone-200">
           <div className="w-full max-h-18 flex items-center">
             {/* Logo Div */}
             {userTypes && (
@@ -159,7 +163,7 @@ const App = () => {
                 </div>
                 <div>
                   <p className="font-medium text-xs flex items-center justify-center">
-                    Your GenAI assistant
+                    Chat With Your Documents
                   </p>
                 </div>
               </div>
@@ -183,14 +187,17 @@ const App = () => {
             </div>
           )}
           <div className="flex items-center justify-center w-5/6 h-full max-h-full overflow-y-auto">
-            <Screen
-              userTypes={userTypes}
-              toggleUserTypes={toggleUserTypes}
-              currentSessionId={currentSessionId}
-              conversationPicked={conversationPicked}
-              toggleBoolFetchHistory={toggleBoolFetchHistory}
-              userName={userName}
-            />
+            {location.pathname === "/chat" && (
+              <Screen
+                userTypes={userTypes}
+                toggleUserTypes={toggleUserTypes}
+                currentSessionId={currentSessionId}
+                conversationPicked={conversationPicked}
+                toggleBoolFetchHistory={toggleBoolFetchHistory}
+                userName={userName}
+              />
+            )}
+            {location.pathname === "/upload" && <Upload />}
           </div>
         </div>
       </div>

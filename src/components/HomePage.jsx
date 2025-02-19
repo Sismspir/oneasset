@@ -5,11 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa6";
 import { FaMessage } from "react-icons/fa6";
 import { fetchUserName } from "../api/getName";
+import { getDocumentNames } from "../api/getDocumentNames";
 
 const HomePage = () => {
   const [guide] = useState("./UserGuide.pdf");
   const [userName, setUsername] = useState("");
   const [nameForGuide, setNameForGuide] = useState("");
+  const [documentNames, setDocumentNames] = useState();
   const [isVideoPlaying, setIsVideoPlaying] = useState(false); // Track video state
   const navigate = useNavigate();
   const videoRef = useRef(null); // Reference for the video element
@@ -34,6 +36,15 @@ const HomePage = () => {
       const name = result.split(".")[0];
       setUsername(name.charAt(0).toUpperCase() + name.slice(1));
       setNameForGuide(result);
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getDocuments = async () => {
+    try {
+      const result = await getDocumentNames();
       return result;
     } catch (err) {
       console.log(err);
@@ -65,7 +76,14 @@ const HomePage = () => {
   useEffect(() => {
     // Add fullscreenchange event listener
     document.addEventListener("fullscreenchange", handleFullscreenChange);
-    // Cleanup event listener on component unmount
+    getDocuments()
+      .then((documents) => {
+        setDocumentNames(documents);
+        console.log("Documents AVAILABLE:", documents);
+      })
+      .catch((err) => {
+        console.error("Error fetching documents:", err);
+      });
     return () => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
     };
@@ -73,14 +91,14 @@ const HomePage = () => {
 
   useEffect(() => {
     getName();
-    console.log("Get name just executed!");
+    console.log("Get name just executed!", "availble documents");
   });
 
   return (
-    <div className="h-screen w-full flex items-center justify-center relative bg-stone-400 text-white">
+    <div className="h-screen w-full flex items-center justify-center relative bg-stone-300 text-white">
       <div className="h-full flex flex-col gap-3 w-11/12">
         {/* ===========  First div =========== */}
-        <div className="h-[32%] 2xl:text-xl xl:text-lg lg:text-sm px-4 flex flex-col py-5 lg:py-1 font-normal overflow-auto bg-gray-700 mt-3">
+        <div className="h-[32%] 2xl:text-xl xl:text-lg lg:text-sm px-4 flex flex-col py-5 lg:py-1 font-normal overflow-auto bg-gray-500 mt-3">
           <div className="flex">
             Hello,&nbsp;
             <div className="text-gray-300 font-semibold">{userName}!</div>
@@ -88,10 +106,10 @@ const HomePage = () => {
               {nameForGuide !== "" && <Userinfo userName={nameForGuide} />}
             </div>
           </div>
-          <div className="flex 2xl:text-3xl lg:text-2xl font-bold text-gray-400">
+          <div className="flex 2xl:text-3xl lg:text-2xl font-bold text-gray-300">
             Welcome to&nbsp;
-            <div className="text-[#b0b0d1] flex">
-              <p className="text-[#4c7383]">One</p>Asset!
+            <div className="text-[#bbbbe2] flex">
+              <p className="text-[#a6cad8]">One</p>Asset!
             </div>
           </div>
           <div className="text-white text-base">
@@ -100,7 +118,7 @@ const HomePage = () => {
           <div className="flex gap-52 xl:gap-44 lg:gap-24 justify-center my-auto pt-4">
             <button
               onClick={() => handleNewChat()}
-              className="bg-gray-700 text-white w-72 2xl:h-14 lg:h-12 text-base rounded-full hover:bg-gray-600 flex items-center justify-start p-2 shadow-custom-dark shadow-slate-800"
+              className="bg-gray-600 text-white w-72 2xl:h-14 lg:h-12 text-base rounded-full hover:bg-gray-500 flex items-center justify-start p-2 shadow-custom-dark shadow-slate-800"
             >
               <span className="xl:text-lg flex-shrink font-semibold text-center text-nowrap ml-14 ">
                 Start New Chat
@@ -148,7 +166,7 @@ const HomePage = () => {
           </div>
         </div>
         {/* ===========  Second div =========== */}
-        <div className="mb-2 flex text-gray-900 bg-gray-400 shadow-custom-dark shadow-gray-400 h-[24%] 2xl:text-base xl:text-sm lg:text-xs">
+        <div className="mb-2 flex text-gray-900 bg-stone-200 shadow-custom-dark shadow-gray-400 h-[24%] 2xl:text-base xl:text-sm lg:text-xs">
           <div className="w-full max-h-full overflow-auto">
             <div className="p-3 text-justify leading-relaxed">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
@@ -170,21 +188,19 @@ const HomePage = () => {
         {/* ===========  Third div =========== */}
         <div className="h-[36%] text-gray-900 bg-stone-300 shadow-md flex mb-2">
           <div className="w-2/5 overflow-auto  bg-gray-500 text-gray-100 font-bold 2xl:text-xl xl:text-lg p-2">
-            Available Documents.
+            Available Documents
             <div className="flex justify-center xl:gap-6 lg:gap-2 2xl:text-base xl:text-sm lg:text-xs mt-4 ml-[2vw] text-gray-300">
               <div className="flex flex-col gap-2">
-                {["Document 1", "Document 2", "Document 3"].map(
-                  (doc, index) => (
-                    <div
-                      key={index}
-                      className="bg-gray-700 text-white rounded-full p-4 w-56 text-center"
-                    >
-                      {doc}
-                    </div>
-                  )
-                )}
+                {documentNames?.map((doc, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-700 text-white rounded-full p-4 w-56 text-center"
+                  >
+                    {doc.replace(".pdf", "")}
+                  </div>
+                ))}
               </div>
-              <div className="flex flex-col gap-2">
+              {/* <div className="flex flex-col gap-2">
                 {["Document 4", "Document 5"].map((doc, index) => (
                   <div
                     key={index}
@@ -193,23 +209,23 @@ const HomePage = () => {
                     {doc}
                   </div>
                 ))}
-              </div>
+              </div> */}
             </div>
           </div>
-          <div className="flex flex-col w-3/5 gap-2 px-5 font-base h-full max-h-full overflow-auto 2xl:text-base xl:text-sm lg:text-xs text-justify ">
+          <div className="flex flex-col w-3/5 gap-2 px-5 font-base h-full max-h-full overflow-auto 2xl:text-base xl:text-sm lg:text-xs text-justify bg-stone-200">
             <div className="w-4/6 2xl:text-3xl xl:text-xl lg:text-base font-bold mt-5 mb-4">
               Lorem ipsum dolor sit amet.
             </div>
-            <div className="mb-3 font-semibold ">
+            <div className="mb-3 ">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Asperiores, quibusdam.
             </div>
-            <div className="mb-3 font-semibold ">
+            <div className="mb-3 ">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo
               velit porro ea dolor quidem accusamus nulla aspernatur quaerat,
               libero saepe!
             </div>
-            <div className="font-semibold ">
+            <div className="">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto
               magnam et minima doloremque. Quod autem dolores veritatis,
               accusantium hic sit.

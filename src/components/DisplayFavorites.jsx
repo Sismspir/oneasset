@@ -80,7 +80,7 @@ const DisplayFavorites = (props) => {
               }}
               onMouseEnter={() => setHoveredIndex(key)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className="relative rounded-md p-1 text-sm flex items-center gap-1 w-full max-w-full cursor-pointer hover:bg-[#365696]"
+              className="relative rounded-md p-1 text-sm flex items-center gap-1 w-full max-w-full cursor-pointer hover:bg-[#8691a7]"
             >
               {editIndex === firstConversation?.id ? (
                 <input
@@ -108,7 +108,7 @@ const DisplayFavorites = (props) => {
                 <HiDotsHorizontal size={20} />
               </div>
               {optionsIndex === key && (
-                <div className="absolute top-full right-1 cursor-pointer  bg-[#9DD563] font-bold text-md text-[#0000A0] rounded-lg mt-1 hover:bg-[rgb(160,239,129)] z-20 flex flex-col shadow-lg">
+                <div className="absolute top-full right-1 cursor-pointer  bg-[#d6dbd1] font-bold text-md text-[#1e1e31] rounded-lg mt-1 hover:bg-[rgb(255,255,255)] z-20 flex flex-col shadow-lg">
                   <button
                     className="p-3  hover:rounded-md"
                     onClick={(e) => {

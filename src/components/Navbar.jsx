@@ -30,6 +30,7 @@ const Navbar = (props) => {
     toggleConversationPicked,
     boolFetchHistory,
     userName,
+    uploadVisible,
   } = props;
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [optionsIndex, setOptionsIndex] = useState(null);
@@ -130,6 +131,11 @@ const Navbar = (props) => {
   let isChatInProgress = false;
 
   const handleNewChat = async () => {
+    if (uploadVisible) {
+      navigate("/chat");
+      return;
+    }
+    console.log("NEW CHAT BUTTON PRESSED!");
     // Check if the function is already executing
     if (isChatInProgress) return;
 
@@ -216,7 +222,7 @@ const Navbar = (props) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 h-full bg-gray-700 text-[#ffffff] text-sm font-medium transition-all duration-300  shadow-custom-dark ${
+      className={`fixed top-0 left-0 h-full bg-[#595c5e] text-[#ffffff] text-sm font-medium transition-all duration-300  shadow-custom-dark ${
         navbarOpen ? "w-1/6" : "w-16"
       }`}
     >
@@ -243,7 +249,7 @@ const Navbar = (props) => {
           onClick={() => {
             handleNewChat();
           }}
-          className={`w-[85%] mx-auto p-3 cursor-pointer  bg-[#9bc6d3] font-bold text-lg text-gray-800 rounded-lg mb-5 ${
+          className={`w-[85%] mx-auto p-3 cursor-pointer  bg-[#b7d0d8] font-bold text-lg text-gray-800 rounded-lg mb-5 ${
             navbarOpen
               ? "flex items-start gap-4 mt-20"
               : "flex items-center justify-center mt-24"
@@ -257,7 +263,7 @@ const Navbar = (props) => {
               navbarOpen ? "opacity-100 max-h-20" : "opacity-0 max-h-0 max-w-0"
             }`}
           >
-            Start New Chat
+            {!uploadVisible ? "Start New Chat" : "Chat With The Documents"}
           </p>
         </li>
         {/* ========= USER GUIDE ========= */}
@@ -303,157 +309,165 @@ const Navbar = (props) => {
           </p>
         </li>
         {/* ========= FAVORITES ========= */}
-        <li
-          className={`cursor-pointer ${
-            navbarOpen
-              ? "flex flex-col items-start justify-start gap-1"
-              : `flex items-center justify-center pl-5 mt-1 hover:bg-gray-500`
-          } `}
-        >
-          <div
-            className={`flex gap-2 ${
-              navbarOpen
-                ? "p-3 mb-0 hover:bg-gray-500 w-full"
-                : "flex items-center justify-center"
-            } `}
-          >
-            <IoStarOutline size={24} />
-            <p
-              className={`transition-all duration-300 overflow-hidden ${
-                navbarOpen
-                  ? "opacity-100 max-h-20"
-                  : "opacity-0 max-h-0 max-w-0"
-              }`}
-            >
-              Favorites
-            </p>
-          </div>
-
-          <DisplayFavorites
-            navbarOpen={navbarOpen}
-            userName={userName}
-            favorites={backEndHistory}
-            changeSessionId={changeSessionId}
-            updateConversationHistory={updateConversationHistory}
-            removeFavoriteFromHistory={removeFavoriteFromHistory}
-          />
-        </li>
-        {/* ========= HISTORY ========= */}
-        <li className={`cursor-pointer ${!navbarOpen && "hover:bg-gray-500"}`}>
-          <div
+        {!uploadVisible && (
+          <li
             className={`cursor-pointer ${
               navbarOpen
-                ? "flex p-3 justify-start gap-1 hover:bg-gray-500 w-full"
-                : "flex items-center justify-center ml-0 p-3"
-            }`}
+                ? "flex flex-col items-start justify-start gap-1"
+                : `flex items-center justify-center pl-5 mt-1 hover:bg-gray-500`
+            } `}
           >
-            <IoBookOutline size={24} />
-            {navbarOpen && <div className="ml-1">History</div>}
-          </div>
-          {navbarOpen && (
-            <div className="space-y-2 w-full overflow-x-hidden h-[32vh] max-h-[32vh] overflow-y-auto text-white ml-0 pl-3">
-              {Object?.keys(backEndHistory)
-                .sort(
-                  (a, b) =>
-                    new Date(backEndHistory[b].date) -
-                    new Date(backEndHistory[a].date)
-                )
-                .map((key, index) => {
-                  const conversationsArray = backEndHistory[key]?.conversations;
-                  const conversation = backEndHistory[key];
-                  const sessionName = conversation?.session_name;
-                  return (
-                    <div
-                      key={`${key}-${index}`}
-                      onClick={() => {
-                        console.log(typeof key, "line 287 in navbar", key);
-                        changeSessionId(key);
-                        fetchChat(key);
-                        updateConversationHistory(conversationsArray);
-                      }}
-                      className="relative rounded-md p-1 mt-2 text-sm flex items-center gap-1 w-full max-w-full cursor-pointer hover:bg-gray-500"
-                      onMouseEnter={() => setHoveredIndex(key)}
-                      onMouseLeave={() => setHoveredIndex(null)}
-                    >
-                      {editIndex === key ? (
-                        <input
-                          type="text"
-                          value={editValue}
-                          onChange={handleEditInputChange}
-                          onBlur={() => saveEdit(key)}
-                          onKeyDown={(e) => e.key === "Enter" && saveEdit(key)}
-                          className="border-b-2 border-[#20ceb1] w-full p-1 focus:outline-none  bg-black focus:border-2 focus:border-slate-200"
-                          autoFocus
-                        />
-                      ) : (
-                        <span className="truncate">
-                          {sessionName.slice(0, 60)}
-                        </span>
-                      )}
-
-                      <div
-                        className="cursor-pointer w-8"
-                        style={{
-                          visibility:
-                            hoveredIndex === key ? "visible" : "hidden",
-                          minWidth: "24px",
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setOptionsIndex(optionsIndex === key ? null : key);
-                        }}
-                      >
-                        <HiDotsHorizontal size={20} />
-                      </div>
-
-                      {optionsIndex === key && (
-                        <div className="absolute top-full right-1 bg-[#ffffff] border p-2 rounded-xl z-50 flex flex-col mt-1 shadow-lg">
-                          <button
-                            className="p-2 cursor-pointer  bg-[#9bc6d3] font-bold text-md text-black rounded-lg hover:bg-[#c5e2ec]"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              renameQuestion(key, sessionName);
-                            }}
-                          >
-                            <div className="flex items-center justify-center gap-3">
-                              <MdDriveFileRenameOutline />
-                              Rename
-                            </div>
-                          </button>
-                          <button
-                            className="p-2 cursor-pointer  bg-[#9bc6d3] font-bold text-md text-black rounded-lg mt-1 hover:bg-[#c5e2ec]"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              deleteConv(key);
-                              fetchHistory(userName); // Refresh history after deletion
-                            }}
-                          >
-                            <div className="flex items-center justify-center gap-3">
-                              <AiOutlineDelete />
-                              Delete
-                            </div>
-                          </button>
-                          <button
-                            className="p-2 cursor-pointer  bg-[#9bc6d3] font-bold text-md text-black rounded-lg mt-1 hover:bg-[#c5e2ec]"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              saveToFavorites(key, conversation?.favorite);
-                              fetchHistory(userName); // Refresh after saving as favorite
-                            }}
-                          >
-                            <div className="flex items-center justify-center gap-3">
-                              <GrFavorite />
-                              Save as Favorite
-                            </div>
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+            <div
+              className={`flex gap-2 ${
+                navbarOpen
+                  ? "p-3 mb-0 hover:bg-gray-500 w-full"
+                  : "flex items-center justify-center"
+              } `}
+            >
+              <IoStarOutline size={24} />
+              <p
+                className={`transition-all duration-300 overflow-hidden ${
+                  navbarOpen
+                    ? "opacity-100 max-h-20"
+                    : "opacity-0 max-h-0 max-w-0"
+                }`}
+              >
+                Favorites
+              </p>
             </div>
-          )}
-        </li>
+            <DisplayFavorites
+              navbarOpen={navbarOpen}
+              userName={userName}
+              favorites={backEndHistory}
+              changeSessionId={changeSessionId}
+              updateConversationHistory={updateConversationHistory}
+              removeFavoriteFromHistory={removeFavoriteFromHistory}
+            />
+          </li>
+        )}
+        {/* ========= HISTORY ========= */}
+        {!uploadVisible && (
+          <li
+            className={`cursor-pointer ${!navbarOpen && "hover:bg-gray-500"}`}
+          >
+            <div
+              className={`cursor-pointer ${
+                navbarOpen
+                  ? "flex p-3 justify-start gap-1 hover:bg-gray-500 w-full"
+                  : "flex items-center justify-center ml-0 p-3"
+              }`}
+            >
+              <IoBookOutline size={24} />
+              {navbarOpen && <div className="ml-1">History</div>}
+            </div>
+            {navbarOpen && (
+              <div className="space-y-2 w-full overflow-x-hidden h-[32vh] max-h-[32vh] overflow-y-auto text-white ml-0 pl-3">
+                {Object?.keys(backEndHistory)
+                  .sort(
+                    (a, b) =>
+                      new Date(backEndHistory[b].date) -
+                      new Date(backEndHistory[a].date)
+                  )
+                  .map((key, index) => {
+                    const conversationsArray =
+                      backEndHistory[key]?.conversations;
+                    const conversation = backEndHistory[key];
+                    const sessionName = conversation?.session_name;
+                    return (
+                      <div
+                        key={`${key}-${index}`}
+                        onClick={() => {
+                          console.log(typeof key, "line 287 in navbar", key);
+                          changeSessionId(key);
+                          fetchChat(key);
+                          updateConversationHistory(conversationsArray);
+                        }}
+                        className="relative rounded-md p-1 mt-2 text-sm flex items-center gap-1 w-full max-w-full cursor-pointer hover:bg-gray-500"
+                        onMouseEnter={() => setHoveredIndex(key)}
+                        onMouseLeave={() => setHoveredIndex(null)}
+                      >
+                        {editIndex === key ? (
+                          <input
+                            type="text"
+                            value={editValue}
+                            onChange={handleEditInputChange}
+                            onBlur={() => saveEdit(key)}
+                            onKeyDown={(e) =>
+                              e.key === "Enter" && saveEdit(key)
+                            }
+                            className="border-b-2 border-[#20ceb1] w-full p-1 focus:outline-none  bg-black focus:border-2 focus:border-slate-200"
+                            autoFocus
+                          />
+                        ) : (
+                          <span className="truncate">
+                            {sessionName.slice(0, 60)}
+                          </span>
+                        )}
+
+                        <div
+                          className="cursor-pointer w-8"
+                          style={{
+                            visibility:
+                              hoveredIndex === key ? "visible" : "hidden",
+                            minWidth: "24px",
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOptionsIndex(optionsIndex === key ? null : key);
+                          }}
+                        >
+                          <HiDotsHorizontal size={20} />
+                        </div>
+
+                        {optionsIndex === key && (
+                          <div className="absolute top-full right-1 bg-[#ffffff] border p-2 rounded-xl z-50 flex flex-col mt-1 shadow-lg">
+                            <button
+                              className="p-2 cursor-pointer  bg-[#9bc6d3] font-bold text-md text-black rounded-lg hover:bg-[#c5e2ec]"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                renameQuestion(key, sessionName);
+                              }}
+                            >
+                              <div className="flex items-center justify-center gap-3">
+                                <MdDriveFileRenameOutline />
+                                Rename
+                              </div>
+                            </button>
+                            <button
+                              className="p-2 cursor-pointer  bg-[#9bc6d3] font-bold text-md text-black rounded-lg mt-1 hover:bg-[#c5e2ec]"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                deleteConv(key);
+                                fetchHistory(userName); // Refresh history after deletion
+                              }}
+                            >
+                              <div className="flex items-center justify-center gap-3">
+                                <AiOutlineDelete />
+                                Delete
+                              </div>
+                            </button>
+                            <button
+                              className="p-2 cursor-pointer  bg-[#9bc6d3] font-bold text-md text-black rounded-lg mt-1 hover:bg-[#c5e2ec]"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                saveToFavorites(key, conversation?.favorite);
+                                fetchHistory(userName); // Refresh after saving as favorite
+                              }}
+                            >
+                              <div className="flex items-center justify-center gap-3">
+                                <GrFavorite />
+                                Save as Favorite
+                              </div>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
+          </li>
+        )}
       </ul>
       {showPopup && (
         <div className="fixed bottom-14 left-1 transform  bg-[#9bc6d3] text-black p-2 rounded-lg shadow-md italic">
@@ -465,9 +479,11 @@ const Navbar = (props) => {
           Conversation is already in favorites!
         </div>
       )}
-      <div onClick={goHome} className="fixed bottom-2 left-3 cursor-pointer">
-        <ImHome size={30} color="white" className="hover:opacity-80" />
-      </div>
+      {!uploadVisible && (
+        <div onClick={goHome} className="fixed bottom-2 left-3 cursor-pointer">
+          <ImHome size={30} color="white" className="hover:opacity-80" />
+        </div>
+      )}
     </div>
   );
 };
@@ -481,6 +497,7 @@ Navbar.propTypes = {
   toggleUserTypes: PropTypes.func.isRequired,
   toggleConversationPicked: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
+  uploadVisible: PropTypes.bool.isRequired,
 };
 
 export default Navbar;
