@@ -123,8 +123,8 @@ const App = () => {
       );
       await getName();
       console.log("get name in line 116 was executed!!!!!!!!!!!!!!!!!");
-      fetchUserInfo();
-      console.log("fetchUserInfo just executed!");
+      // fetchUserInfo();
+      // console.log("fetchUserInfo just executed!");
     };
 
     initializeApp();

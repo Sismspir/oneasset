@@ -23,12 +23,7 @@ const HomePage = () => {
     navigate("/upload");
   };
 
-  const downloadPdf = (pdfURL) => {
-    const link = document.createElement("a");
-    link.href = pdfURL;
-    link.download = pdfURL;
-    link.click();
-  };
+
 
   const getName = async () => {
     try {

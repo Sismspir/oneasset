@@ -16,6 +16,11 @@ export default {
           '0%': { opacity: 0, transform: 'translateY(20px)' },
           '100%': { opacity: 1, transform: 'translateY(0)' },
         },
+        pingLoader: {
+          "0%": { left: "0%" },
+          "50%": { left: "70%" },
+          "100%": { left: "0%" },
+        },
         placeholder: {
           '0%': { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },
@@ -24,6 +29,7 @@ export default {
       animation: {
         fadeInUp: 'fadeInUp 0.5s ease-out forwards', // Adjust the timing as necessary
         placeholder: 'placeholder 5s ease-in-out infinite',
+        pingLoader: "pingLoader 2s infinite ease-in-out",
       },
     },
   },

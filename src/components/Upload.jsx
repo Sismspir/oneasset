@@ -1,27 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-// import ImageResize from "quill-image-resize-module-react"; // Import the image resize module
-
-// ReactQuill.Quill.register("modules/imageResize", ImageResize);
 
 const Upload = () => {
+  const BASE_URL = window.BASE_URL || "http://localhost:8000";
   const [uploading, setUploading] = useState(false);
-  const [selectedFields, setSelectedFields] = useState([]);
-  const [progress, setProgress] = useState(0);
   const [newArticle, setNewArticle] = useState({
     title: "",
     file: null,
-    image: null,
-    summary: "",
-  });
-  const [editArticle, setEditArticle] = useState({
-    id: null,
-    title: "",
-    contentHtml: "",
-    image: null,
-    summary: "", // New field
   });
 
   const handleFileChange = (e) => {
@@ -36,81 +21,64 @@ const Upload = () => {
     }
 
     setUploading(true);
-    setProgress(0);
 
     const formData = new FormData();
     formData.append("file", newArticle.file);
 
     try {
-      // Start listening for progress updates
-      const eventSource = new EventSource("http://localhost:8000/progress");
-
-      eventSource.onmessage = (event) => {
-        const progressValue = parseInt(event.data, 10);
-        setProgress(progressValue);
-        if (progressValue >= 100) {
-          eventSource.close();
-          setUploading(false);
-          console.log();
-          alert(`The document was successfully uploaded`);
-        }
-      };
-
-      // Send file to back-end
-      const response = await fetch("http://localhost:8000/process_pdf", {
+      const response = await fetch(`${BASE_URL}/process_pdf`, {
         method: "POST",
         body: formData,
       });
 
-      const data = await response.json();
-      console.log(data.message);
+      if (!response.ok) {
+        throw new Error("Failed to start processing");
+      }
+
+      // Polling to check progress every 3 seconds
+      const checkProgress = async () => {
+        try {
+          const progressResponse = await fetch(`${BASE_URL}/progress`);
+          const progressData = await progressResponse.json();
+
+          if (progressData.progress < 100) {
+            setTimeout(checkProgress, 3000); // Poll every 3 seconds
+          } else {
+            setUploading(false);
+            alert("The document was successfully uploaded");
+          }
+        } catch (error) {
+          console.error("Error fetching progress:", error);
+          setUploading(false);
+        }
+      };
+
+      checkProgress(); // Start polling
     } catch (error) {
       alert(`Failed to upload article: ${error.message}`);
+      setUploading(false);
     }
   };
 
   const navigate = useNavigate();
 
-  const goHome = () => {
-    navigate("/home");
-  };
-
-  // useEffect(() => {
-  //   uploading &&
-  //     progress == 100 &&
-  //     alert(`The document was successfully uploaded`);
-  // }, [uploading]);
-
   return (
-    <div className="container mx-auto px-4 py-8 -mt-64">
+    <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-10 text-center">
         Upload Documents
       </h1>
 
-      {/* New or Edit Article Form */}
-      <div className=" bg-white shadow-lg rounded-lg p-6">
+      <div className="bg-white shadow-lg rounded-lg p-6">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
           Upload New Document
         </h2>
         <div className="space-y-4">
-          {/* Render the ReactQuill editor with image resizing only when editing */}
-          {editArticle.id && (
-            <ReactQuill
-              theme="snow"
-              value={editArticle.contentHtml}
-              onChange={(value) =>
-                setEditArticle((prev) => ({ ...prev, contentHtml: value }))
-              }
-              className="w-full border border-gray-300 rounded-lg shadow-sm"
-            />
-          )}
-          {/* File Upload */}
           <div className="w-full border border-gray-300 p-3 rounded-lg shadow-sm focus-within:ring focus-within:ring-blue-300">
             <label
               htmlFor="fileInput"
               className="block text-gray-600 cursor-pointer font-semibold mb-1"
             >
-              Choose Document (pdf)
+              Choose Document (PDF)
             </label>
             <div className="relative">
               <input
@@ -134,32 +102,24 @@ const Upload = () => {
             <button
               onClick={handleUpload}
               disabled={uploading}
-              className={`bg-[#001529] hover:bg-[#314f6c] text-white font-bold  py-1 px-3 rounded-lg shadow-md transition duration-300 ${
-                uploading ? "cursor-not-allowed" : ""
+              className={`bg-[#001529] hover:bg-[#314f6c] text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ${
+                uploading ? "cursor-not-allowed opacity-50" : ""
               }`}
             >
-              {uploading
-                ? "Uploading..."
-                : editArticle.id
-                ? "Save Changes"
-                : "Upload Document"}
+              {uploading ? "Uploading..." : "Upload Document"}
             </button>
             <button
-              onClick={goHome}
-              className="mt-10 cursor-pointer bg-[#445754] hover:bg-[#314f6c] text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300"
+              onClick={() => navigate("/home")}
+              className="bg-[#445754] hover:bg-[#314f6c] text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300"
             >
               Back To Homepage
             </button>
           </div>
 
+          {/* Moving Loader Bar */}
           {uploading && (
-            <div className="w-full bg-[#868888] rounded-r-full mt-5">
-              <div
-                className="bg-green-600 text-sm font-sold text-white text-center py-2 pl-2 leading-none rounded-r-full"
-                style={{ width: `${progress}%` }}
-              >
-                {progress}%
-              </div>
+            <div className="w-full bg-gray-300 h-2 rounded-full mt-5 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-1/3 h-2 bg-green-600 animate-pingLoader"></div>
             </div>
           )}
         </div>
