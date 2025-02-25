@@ -12,6 +12,7 @@ import Navbar from "./components/Navbar";
 import logo from "/packImages/pack.png";
 import Screen from "./components/Screen";
 import Upload from "./components/Upload";
+import SmartSummary from "./components/SmartSummary";
 import Userinfo from "./components/Userinfo";
 
 const App = () => {
@@ -186,7 +187,7 @@ const App = () => {
               <ConversationLibrary />
             </div>
           )}
-          <div className="flex items-center justify-center w-5/6 h-full max-h-full overflow-y-auto">
+          <div className="flex items-center justify-center w-5/6 h-full max-h-full overflow-y-auto ">
             {location.pathname === "/chat" && (
               <Screen
                 userTypes={userTypes}
@@ -198,6 +199,7 @@ const App = () => {
               />
             )}
             {location.pathname === "/upload" && <Upload />}
+            {location.pathname === "/smartSummary" && <SmartSummary />}
           </div>
         </div>
       </div>

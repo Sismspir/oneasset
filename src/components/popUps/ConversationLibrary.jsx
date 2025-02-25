@@ -27,7 +27,7 @@ const ConversationLibrary = () => {
 
   return (
     <div className="max-w-full h-full w-full">
-      <div className="rounded-md px-20 bg-white w-full h-[90.25vh]">
+      <div className="rounded-md my-2 bg-white w-full h-[90.5vh]">
         <DocumentTable
           documents={documentNames}
           onDelete={handleDeleteDocument}

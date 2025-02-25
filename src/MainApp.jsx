@@ -27,6 +27,7 @@ function MainApp() {
           <Route index element={<HomePage />} />
           <Route path="/chat" element={<App />} />
           <Route path="/upload" element={<App />} />
+          <Route path="/smartSummary" element={<App />} />
           <Route path="/home" element={<HomePage />} />
         </Routes>
       </Router>

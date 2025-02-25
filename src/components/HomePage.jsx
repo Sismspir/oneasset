@@ -23,7 +23,9 @@ const HomePage = () => {
     navigate("/upload");
   };
 
-
+  const handleSummary = () => {
+    navigate("/smartSummary");
+  };
 
   const getName = async () => {
     try {
@@ -140,16 +142,14 @@ const HomePage = () => {
                 </span>
               </div>
             </button>
-            {/* <button
-              onClick={() => {
-                downloadPdf(guide);
-              }}
-              className="bg-[#00d7ba] text-white w-72 2xl:h-14 lg:h-12 text-base rounded-full hover:bg-[#63c4b7] flex items-center justify-start p-2"
+            <button
+              onClick={() => handleSummary()}
+              className="bg-gray-700 text-white w-76  2xl:h-14 lg:h-12 text-base rounded-full hover:bg-gray-600 flex items-center justify-start px-8 py-4 shadow-custom-dark shadow-slate-800"
             >
-              <span className="xl:text-lg flex-shrink font-semibold text-center text-nowrap ml-14">
-                Read User Manual
+              <span className="xl:text-lg flex-shrink font-semibold text-center text-nowrap ml-10">
+                Smart Summary
               </span>
-              <div className="bg-white text-white text-xl w-10 h-10 xl:h-10 lg:h-9 flex items-center justify-center rounded-full ml-7">
+              <div className="bg-white text-white text-xl w-10 h-10 flex items-center justify-center rounded-full ml-5">
                 <span className="flex items-center justify-center">
                   <FaChevronRight
                     color="#0000A0"
@@ -157,7 +157,7 @@ const HomePage = () => {
                   />
                 </span>
               </div>
-            </button> */}
+            </button>
           </div>
         </div>
         {/* ===========  Second div =========== */}
