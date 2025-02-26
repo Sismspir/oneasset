@@ -14,17 +14,22 @@ import Screen from "./components/Screen";
 import Upload from "./components/Upload";
 import SmartSummary from "./components/SmartSummary";
 import Userinfo from "./components/Userinfo";
+import SmartComparison from "./components/SmartComparison";
+import Adherence from "./components/Adherence";
 
 const App = () => {
   const location = useLocation();
   const [userName, setUsername] = useState("");
-  const [navbarOpen, setNavbarOpen] = useState(true);
+  const [navbarOpen, setNavbarOpen] = useState(false);
   const [userTypes, setUserTypes] = useState(false);
   const [navItemsOpen, setNavItemsOpen] = useState({
     Chat: false,
     Prompts: false,
     Guide: false,
     Library: false,
+    Summary: false,
+    Comparison: false,
+    Adherence: false,
   });
   const [boolFetchHistory, setBoolFetchHistory] = useState(true);
   const [conversationPicked, setConversationPicked] = useState([]);
@@ -145,7 +150,7 @@ const App = () => {
           toggleConversationPicked={toggleConversationPicked}
           boolFetchHistory={boolFetchHistory}
           userName={userName}
-          uploadVisible={location.pathname === "/upload"}
+          visibleComponent={location.pathname}
         />
       </div>
 
@@ -177,7 +182,7 @@ const App = () => {
           </div>
           {/* userGuideOpen ? */}
           {navItemsOpen.Guide && (
-            <div className="z-10 w-full relative">
+            <div className="w-full relative">
               <UserGuidePopUp />
             </div>
           )}
@@ -185,6 +190,24 @@ const App = () => {
           {navItemsOpen.Library && (
             <div className="w-full relative">
               <ConversationLibrary />
+            </div>
+          )}
+          {/* SmartSummary ? */}
+          {navItemsOpen.Summary && (
+            <div className="w-full relative">
+              <SmartSummary />
+            </div>
+          )}
+          {/* ComparisonOpen ? */}
+          {navItemsOpen.Comparison && (
+            <div className="w-full relative">
+              <SmartComparison />
+            </div>
+          )}
+          {/* AdherenceOpen ? */}
+          {navItemsOpen.Adherence && (
+            <div className="w-full relative">
+              <Adherence />
             </div>
           )}
           <div className="flex items-center justify-center w-5/6 h-full max-h-full overflow-y-auto ">

@@ -44,9 +44,11 @@ const Upload = () => {
           if (progressData.progress < 100) {
             setTimeout(checkProgress, 3000); // Poll every 3 seconds
           } else {
-            setTimeout(checkProgress, 90000);
-            setUploading(false);
-            alert("The document was successfully uploaded");
+            // Stop polling when upload is complete
+            setTimeout(() => {
+              setUploading(false);
+              alert("The document was successfully uploaded");
+            }, 90000);
           }
         } catch (error) {
           console.error("Error fetching progress:", error);

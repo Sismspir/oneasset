@@ -78,8 +78,8 @@ const SmartSummary = () => {
   };
 
   return (
-    <div className="container  max-h-full">
-      <h1 className="text-3xl font-bold text-gray-800 mb-10 text-center">
+    <div className="mt-2 relative top-0 left-0 h-[85vh] w-full overflow-x-hidden overflow-y-auto bg-white rounded-3xl ">
+      <h1 className="text-3xl font-bold text-gray-800 mt-4 mb-6 text-center">
         Smart Summary
       </h1>
 
@@ -164,7 +164,7 @@ const SmartSummary = () => {
 
         <button
           onClick={handleGenerateSummary}
-          className="bg-blue-500 text-white p-2 rounded w-full"
+          className="bg-blue-500 hover:bg-blue-400 hover:cursor-pointer text-white p-2 rounded flex w-1/2 justify-self-center items-center justify-center"
           disabled={!selectedDocument || uploading}
         >
           {uploading ? "Generating..." : "Generate Smart Summary"}

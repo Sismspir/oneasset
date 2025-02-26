@@ -6,6 +6,8 @@ import { BsChatDots } from "react-icons/bs";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { IoStarOutline } from "react-icons/io5";
 import { VscCompass } from "react-icons/vsc";
+import { MdOutlineDocumentScanner } from "react-icons/md";
+import { IoDocumentsOutline } from "react-icons/io5";
 import { IoLibraryOutline } from "react-icons/io5";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -30,7 +32,7 @@ const Navbar = (props) => {
     toggleConversationPicked,
     boolFetchHistory,
     userName,
-    uploadVisible,
+    visisbleComponent,
   } = props;
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [optionsIndex, setOptionsIndex] = useState(null);
@@ -131,7 +133,7 @@ const Navbar = (props) => {
   let isChatInProgress = false;
 
   const handleNewChat = async () => {
-    if (uploadVisible) {
+    if (visisbleComponent !== "/chat") {
       navigate("/chat");
       return;
     }
@@ -263,7 +265,9 @@ const Navbar = (props) => {
               navbarOpen ? "opacity-100 max-h-20" : "opacity-0 max-h-0 max-w-0"
             }`}
           >
-            {!uploadVisible ? "Start New Chat" : "Chat With The Documents"}
+            {visisbleComponent == "/chat"
+              ? "Start New Chat"
+              : "Chat With The Documents"}
           </p>
         </li>
         {/* ========= USER GUIDE ========= */}
@@ -271,7 +275,7 @@ const Navbar = (props) => {
           onClick={() => {
             updateNavItems("Guide");
           }}
-          className={`mx-auto p-3 cursor-pointer mb-0 ${
+          className={`mx-auto px-3 py-2 cursor-pointer mb-1 ${
             navbarOpen ? openNavClass : "flex items-center justify-center"
           }
           ${hoverClass} `}
@@ -287,12 +291,13 @@ const Navbar = (props) => {
             User Guide
           </p>
         </li>
+
         {/* ========= DOC LIBRARY ========= */}
         <li
           onClick={() => {
             updateNavItems("Library");
           }}
-          className={`mx-auto p-3 cursor-pointer mt-0 ${
+          className={`mx-auto px-3 py-2 cursor-pointer mt-0 ${
             navbarOpen ? openNavClass : "flex items-center justify-center"
           }
           ${hoverClass} `}
@@ -308,13 +313,63 @@ const Navbar = (props) => {
             Documentation Library
           </p>
         </li>
+        {/* ========= Smart Comparison ========= */}
+        {location.pathname !== "/chat" && (
+          <li
+            onClick={() => {
+              updateNavItems("Comparison");
+            }}
+            className={`mx-auto p-3 cursor-pointer mb-0 ${
+              navbarOpen ? openNavClass : "flex items-center justify-center"
+            }
+          ${hoverClass} `}
+          >
+            <div>
+              <IoDocumentsOutline size={24} />
+            </div>
+            <p
+              className={`transition-all duration-300 overflow-hidden ${
+                navbarOpen
+                  ? "opacity-100 max-h-20"
+                  : "opacity-0 max-h-0 max-w-0"
+              }`}
+            >
+              Smart Comparison
+            </p>
+          </li>
+        )}
+        {/* ========= Document Adherence ========= */}
+        {location.pathname !== "/chat" && (
+          <li
+            onClick={() => {
+              updateNavItems("Adherence");
+            }}
+            className={`mx-auto p-3 cursor-pointer mb-0 ${
+              navbarOpen ? openNavClass : "flex items-center justify-center"
+            }
+          ${hoverClass} `}
+          >
+            <div>
+              <MdOutlineDocumentScanner size={24} />
+            </div>
+            <p
+              className={`transition-all duration-300 overflow-hidden ${
+                navbarOpen
+                  ? "opacity-100 max-h-20"
+                  : "opacity-0 max-h-0 max-w-0"
+              }`}
+            >
+              Document Adherence
+            </p>
+          </li>
+        )}
         {/* ========= FAVORITES ========= */}
-        {!uploadVisible && (
+        {location.pathname == "/chat" && (
           <li
             className={`cursor-pointer ${
               navbarOpen
                 ? "flex flex-col items-start justify-start gap-1"
-                : `flex items-center justify-center pl-5 mt-1 hover:bg-gray-500`
+                : `py-2 flex items-center justify-center pl-5 hover:bg-gray-500`
             } `}
           >
             <div
@@ -346,7 +401,7 @@ const Navbar = (props) => {
           </li>
         )}
         {/* ========= HISTORY ========= */}
-        {!uploadVisible && (
+        {location.pathname == "/chat" && (
           <li
             className={`cursor-pointer ${!navbarOpen && "hover:bg-gray-500"}`}
           >
@@ -479,7 +534,7 @@ const Navbar = (props) => {
           Conversation is already in favorites!
         </div>
       )}
-      {!uploadVisible && (
+      {visisbleComponent != "/chat" && (
         <div onClick={goHome} className="fixed bottom-2 left-3 cursor-pointer">
           <ImHome size={30} color="white" className="hover:opacity-80" />
         </div>
@@ -497,7 +552,7 @@ Navbar.propTypes = {
   toggleUserTypes: PropTypes.func.isRequired,
   toggleConversationPicked: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
-  uploadVisible: PropTypes.bool.isRequired,
+  visisbleComponent: PropTypes.bool.isRequired,
 };
 
 export default Navbar;

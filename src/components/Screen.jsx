@@ -28,7 +28,7 @@ const Screen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [tempQuestion, setTempQuestion] = useState("");
   const startPlaceHolder =
-    "Feel free to ask me anything about packaging! How can I assist you?";
+    "Feel free to ask me anything about your documents! How can I assist you?";
   const [placeholder, setPlaceholder] = useState(startPlaceHolder);
   const [selectedImageSrc, setSelectedImageSrc] = useState(null);
   const chatContainerRef = useRef(null);
