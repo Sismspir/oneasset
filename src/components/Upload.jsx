@@ -48,7 +48,7 @@ const Upload = () => {
             setTimeout(() => {
               setUploading(false);
               alert("The document was successfully uploaded");
-            }, 90000);
+            }, 30000);
           }
         } catch (error) {
           console.error("Error fetching progress:", error);
@@ -66,7 +66,7 @@ const Upload = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 ">
       <h1 className="text-3xl font-bold text-gray-800 mb-10 text-center">
         Upload Documents
       </h1>

@@ -45,7 +45,7 @@ const DocumentTable = ({ documents, onDelete }) => {
   }, [documents]);
 
   return (
-    <div className="p-7 shadow-lg rounded-xl overflow-hidden w-full max-w-full mx-auto bg-white">
+    <div className="p-7 shadow-lg rounded-xl overflow-hidden w-full max-w-full  mx-auto bg-white">
       {/* Document Table */}
       <table className="w-full border-collapse rounded-lg overflow-hidden">
         <thead>

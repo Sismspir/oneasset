@@ -13,7 +13,7 @@ const UserLogPopUp = () => {
   };
 
   return (
-    <div className="shadow-picShadow rounded-md bg-[#c5c5e7] border-4 border-gray-500 text-black font-medium h-20 w-32 flex flex-col">
+    <div className="shadow-picShadow rounded-md bg-[#dedeec] border-4 border-gray-500 text-black font-medium h-20 w-32 flex flex-col">
       <div className="flex-1"></div>
       <div className="hover:bg-gray-300 mb-1 p-2 rounded-sm cursor-pointer flex-1">
         <div

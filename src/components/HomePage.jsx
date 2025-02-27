@@ -12,7 +12,6 @@ const HomePage = () => {
   const [userName, setUsername] = useState("");
   const [nameForGuide, setNameForGuide] = useState("");
   const [documentNames, setDocumentNames] = useState();
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false); // Track video state
   const navigate = useNavigate();
   const videoRef = useRef(null); // Reference for the video element
   const handleNewChat = () => {
@@ -48,31 +47,12 @@ const HomePage = () => {
     }
   };
 
-  const handleFullscreenChange = () => {
-    if (!document.fullscreenElement) {
-      // Exited fullscreen
-      videoRef.current?.pause();
-      videoRef.current.style.display = "none"; // Hide video element
-      setIsVideoPlaying(false); // Mark video as stopped
-    }
-  };
-
   useEffect(() => {
     getName();
     console.log("Get name just executed!");
-
-    // Add fullscreenchange event listener
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    };
   }, []);
 
   useEffect(() => {
-    // Add fullscreenchange event listener
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
     getDocuments()
       .then((documents) => {
         setDocumentNames(documents);
@@ -81,9 +61,6 @@ const HomePage = () => {
       .catch((err) => {
         console.error("Error fetching documents:", err);
       });
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    };
   }, []);
 
   useEffect(() => {
@@ -92,10 +69,10 @@ const HomePage = () => {
   });
 
   return (
-    <div className="h-screen w-full flex items-center justify-center relative bg-stone-300 text-white">
+    <div className="h-screen w-full flex items-center justify-center relative bg-stone-100 text-white">
       <div className="h-full flex flex-col gap-3 w-11/12">
         {/* ===========  First div =========== */}
-        <div className="h-[32%] 2xl:text-xl xl:text-lg lg:text-sm px-4 flex flex-col py-5 lg:py-1 font-normal overflow-auto bg-gray-500 mt-3">
+        <div className="h-[32%] 2xl:text-xl xl:text-lg lg:text-sm px-4 flex flex-col py-5 lg:py-1 font-normal overflow-auto bg-[#0000A0] mt-3">
           <div className="flex">
             Hello,&nbsp;
             <div className="text-gray-300 font-semibold">{userName}!</div>
@@ -110,25 +87,25 @@ const HomePage = () => {
             </div>
           </div>
           <div className="text-white text-base">
-            A smart virtual assistant ready to help you with..
+            A wide library of functionalities for Developers to experiment with
           </div>
           <div className="flex gap-52 xl:gap-44 lg:gap-24 justify-center my-auto pt-4">
             <button
               onClick={() => handleNewChat()}
-              className="bg-gray-600 text-white w-72 2xl:h-14 lg:h-12 text-base rounded-full hover:bg-gray-500 flex items-center justify-start p-2 shadow-custom-dark shadow-slate-800"
+              className="bg-[#00D7B9] text-white w-72 2xl:h-14 lg:h-12 text-base rounded-full hover:bg-[#5fe6d4] flex items-center justify-start p-2 shadow-custom-dark shadow-blue-600"
             >
               <span className="xl:text-lg flex-shrink font-semibold text-center text-nowrap ml-14 ">
                 Start New Chat
               </span>
               <div className="bg-white text-white text-xl w-10 xl:h-9 lg:h-9 flex items-center justify-center rounded-full ml-14">
                 <span className="flex items-center justify-center">
-                  <FaMessage color="gray" className="rounded-sm" />
+                  <FaMessage className="text-[#2b8579] rounded-sm" />
                 </span>
               </div>
             </button>
             <button
               onClick={() => handleUpload()}
-              className="bg-gray-500 text-white w-76 2xl:h-14 lg:h-12 text-base rounded-full hover:bg-gray-400 flex items-center justify-start p-2 shadow-custom-dark shadow-slate-800"
+              className="bg-[#3333c2] text-white w-76 2xl:h-14 lg:h-12 text-base rounded-full hover:bg-[#0040a0] flex items-center justify-start p-2 shadow-custom-dark shadow-blue-900"
             >
               <span className="xl:text-lg flex-shrink font-semibold text-center text-nowrap ml-10">
                 Upload Your Documents
@@ -144,12 +121,12 @@ const HomePage = () => {
             </button>
             <button
               onClick={() => handleSummary()}
-              className="bg-gray-700 text-white w-76  2xl:h-14 lg:h-12 text-base rounded-full hover:bg-gray-600 flex items-center justify-start px-8 py-4 shadow-custom-dark shadow-slate-800"
+              className="bg-[#00D7B9] text-white w-76  2xl:h-14 lg:h-12 text-base rounded-full hover:bg-[#7fddc6] flex items-center gap-14 px-2 py-4 shadow-custom-dark shadow-blue-800"
             >
               <span className="xl:text-lg flex-shrink font-semibold text-center text-nowrap ml-10">
-                Smart Summary
+                Smart Functions
               </span>
-              <div className="bg-white text-white text-xl w-10 h-10 flex items-center justify-center rounded-full ml-5">
+              <div className="bg-white text-white text-xl w-10 h-10 flex items-center justify-center rounded-full ml-1">
                 <span className="flex items-center justify-center">
                   <FaChevronRight
                     color="#0000A0"
@@ -161,69 +138,57 @@ const HomePage = () => {
           </div>
         </div>
         {/* ===========  Second div =========== */}
-        <div className="mb-2 flex text-gray-900 bg-stone-200 shadow-custom-dark shadow-gray-400 h-[24%] 2xl:text-base xl:text-sm lg:text-xs">
+        <div className="mb-2 font-medium flex text-[#0000a0] bg-white shadow-custom-dark shadow-gray-400 h-[24%] 2xl:text-lg xl:text-lg- lg:text-sm">
           <div className="w-full max-h-full overflow-auto">
             <div className="p-3 text-justify leading-relaxed">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
-              rem, quasi praesentium illo dolorem laborum quidem. Omnis alias
-              dicta optio. Lorem ipsum dolor sit amet consectetur adipisicing
-              elit. Ullam rem, quasi praesentium illo dolorem laborum quidem.
-              Omnis alias dicta optio.
-            </div>
-            <div className="px-3 py-1 mt-2 text-justify leading-relaxed">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam
-              voluptate error animi repellendus quisquam a consectetur
-              dignissimos, sequi odit consequuntur deleniti officia sint neque
-              rem. Culpa, totam provident minima quidem ullam id tempore, harum
-              deserunt sequi mollitia, consectetur saepe eligendi ea pariatur
-              aspernatur nam at doloremque nobis accusamus voluptatem quibusdam?
+              The mission of OneAsset is to support Developers in the creation
+              and scaling of AI projects by giving them access to modular code
+              bases for popular functionalities, opening way to a streamlined
+              development approach that valorizes existing code components
+              instead of creating them from scratch. One this playground
+              interface, you can view and test available functionalities like
+              document management and processing, chatbot interface, voicebot,
+              SharePoint integration, and many more.
             </div>
           </div>
         </div>
         {/* ===========  Third div =========== */}
         <div className="h-[36%] text-gray-900 bg-stone-300 shadow-md flex mb-2">
-          <div className="w-2/5 overflow-auto  bg-gray-500 text-gray-100 font-bold 2xl:text-xl xl:text-lg p-2">
+          <div className="w-2/5 overflow-auto  bg-[#9DD563] text-white font-bold 2xl:text-2xl xl:text-xl p-2">
             Available Documents
-            <div className="flex justify-center xl:gap-6 lg:gap-2 2xl:text-base xl:text-sm lg:text-xs mt-4 ml-[2vw] text-gray-300">
-              <div className="flex flex-col gap-2">
+            <div className="flex justify-center xl:gap-6 lg:gap-2 2xl:text-sm xl:text-xs lg:text-xs mt-2 ml-[2vw] text-gray-300">
+              <div className="flex flex-col gap-1">
                 {documentNames?.map((doc, index) => (
                   <div
                     key={index}
-                    className="bg-gray-700 text-white rounded-full p-4 w-56 text-center"
+                    className="bg-[#6C8933] text-white break-words rounded-full px-4 py-2 w-56 text-center"
                   >
                     {doc.replace(".pdf", "")}
                   </div>
                 ))}
               </div>
-              {/* <div className="flex flex-col gap-2">
-                {["Document 4", "Document 5"].map((doc, index) => (
-                  <div
-                    key={index}
-                    className="bg-gray-700 text-white rounded-full px-8 p-4 w-56 text-center"
-                  >
-                    {doc}
-                  </div>
-                ))}
-              </div> */}
             </div>
           </div>
-          <div className="flex flex-col w-3/5 gap-2 px-5 font-base h-full max-h-full overflow-auto 2xl:text-base xl:text-sm lg:text-xs text-justify bg-stone-200">
-            <div className="w-4/6 2xl:text-3xl xl:text-xl lg:text-base font-bold mt-5 mb-4">
-              Lorem ipsum dolor sit amet.
+          <div className="flex flex-col w-3/5 gap-2 px-5 font-base h-full max-h-full overflow-auto 2xl:text-base xl:text-sm lg:text-xs text-justify bg-[#D16808]">
+            <div className="w-4/6 2xl:text-2xl xl:text-xl lg:text-base font-bold mt-5 mb-1 whitespace-normal text-white">
+              How to get access to code components?
             </div>
-            <div className="mb-3 ">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Asperiores, quibusdam.
-            </div>
-            <div className="mb-3 ">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo
-              velit porro ea dolor quidem accusamus nulla aspernatur quaerat,
-              libero saepe!
-            </div>
-            <div className="">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto
-              magnam et minima doloremque. Quod autem dolores veritatis,
-              accusantium hic sit.
+            <div className="flex flex-col w-full  px-5 font-base h-full max-h-full overflow-auto 2xl:text-base xl:text-sm lg:text-xs bg-[#D16808]">
+              <ul className="list-disc pl-5 whitespace-normal w-full text-white font-medium">
+                <li className=" pl-2 py-1 rounded-full ">
+                  Test and choose desired functionalities
+                </li>
+                <li className=" mt-1 pl-2 py-1 rounded-full">
+                  Reach out to OneAsset Team explaining your role, project and
+                  desired code
+                </li>
+                <li className=" mt-1 pl-2 py-1 rounded-full">
+                  Access available repo and documentation
+                </li>
+                <li className=" mt-1 pl-2 py-1 rounded-full">
+                  Build you own project with our reusable code components!
+                </li>
+              </ul>
             </div>
           </div>
         </div>

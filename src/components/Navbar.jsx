@@ -10,6 +10,7 @@ import { MdOutlineDocumentScanner } from "react-icons/md";
 import { IoDocumentsOutline } from "react-icons/io5";
 import { IoLibraryOutline } from "react-icons/io5";
 import { MdDriveFileRenameOutline } from "react-icons/md";
+import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
 import { AiOutlineDelete } from "react-icons/ai";
 import { GrFavorite } from "react-icons/gr";
 import { HiDotsHorizontal } from "react-icons/hi";
@@ -44,7 +45,7 @@ const Navbar = (props) => {
   const [backEndHistory, setBackEndHistory] = useState({}); // athena logic for history
 
   const openNavClass = "flex items-center gap-x-2";
-  const hoverClass = "hover: w-full hover:bg-gray-500";
+  const hoverClass = "hover: w-full hover:bg-blue-500";
 
   const navigate = useNavigate();
   const goHome = () => {
@@ -133,7 +134,8 @@ const Navbar = (props) => {
   let isChatInProgress = false;
 
   const handleNewChat = async () => {
-    if (visisbleComponent !== "/chat") {
+    updateNavItems("");
+    if (location.pathname !== "/chat") {
       navigate("/chat");
       return;
     }
@@ -224,7 +226,7 @@ const Navbar = (props) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 h-full bg-[#595c5e] text-[#ffffff] text-sm font-medium transition-all duration-300  shadow-custom-dark ${
+      className={`fixed top-0 left-0 h-full bg-[#0000A0] text-[#ffffff] text-sm font-medium transition-all duration-300  shadow-custom-dark ${
         navbarOpen ? "w-1/6" : "w-16"
       }`}
     >
@@ -237,11 +239,11 @@ const Navbar = (props) => {
             <HiOutlineMenuAlt1 size={24} />
             <div>
               <p
-                className={`transition-all max-h-20 duration-300 overflow-hidden ml-3 text-base ${
+                className={`transition-all max-h-20 duration-300 overflow-hidden ml-3 text-base italic ${
                   navbarOpen ? "opacity-100" : "opacity-0 max-w-0"
                 }`}
               >
-                Your GenAI assistant
+                Available Functions
               </p>
             </div>
           </button>
@@ -265,7 +267,7 @@ const Navbar = (props) => {
               navbarOpen ? "opacity-100 max-h-20" : "opacity-0 max-h-0 max-w-0"
             }`}
           >
-            {visisbleComponent == "/chat"
+            {location.pathname == "/chat"
               ? "Start New Chat"
               : "Chat With The Documents"}
           </p>
@@ -363,19 +365,48 @@ const Navbar = (props) => {
             </p>
           </li>
         )}
+        {/* ========= Document Summary ========= */}
+        {location.pathname !== "/chat" && (
+          <li
+            onClick={() => {
+              if (location.pathname == "/upload") {
+                updateNavItems("Summary");
+              } else {
+                updateNavItems("");
+              }
+            }}
+            className={`mx-auto p-3 cursor-pointer mb-0 ${
+              navbarOpen ? openNavClass : "flex items-center justify-center"
+            }
+          ${hoverClass} `}
+          >
+            <div>
+              <HiOutlineClipboardDocumentCheck size={24} />
+            </div>
+            <p
+              className={`transition-all duration-300 overflow-hidden ${
+                navbarOpen
+                  ? "opacity-100 max-h-20"
+                  : "opacity-0 max-h-0 max-w-0"
+              }`}
+            >
+              Document Summary
+            </p>
+          </li>
+        )}
         {/* ========= FAVORITES ========= */}
         {location.pathname == "/chat" && (
           <li
             className={`cursor-pointer ${
               navbarOpen
                 ? "flex flex-col items-start justify-start gap-1"
-                : `py-2 flex items-center justify-center pl-5 hover:bg-gray-500`
+                : `py-2 flex items-center justify-center pl-5 hover:bg-blue-500`
             } `}
           >
             <div
               className={`flex gap-2 ${
                 navbarOpen
-                  ? "p-3 mb-0 hover:bg-gray-500 w-full"
+                  ? "p-3 mb-0 hover:bg-blue-500 w-full"
                   : "flex items-center justify-center"
               } `}
             >
@@ -408,7 +439,7 @@ const Navbar = (props) => {
             <div
               className={`cursor-pointer ${
                 navbarOpen
-                  ? "flex p-3 justify-start gap-1 hover:bg-gray-500 w-full"
+                  ? "flex p-3 justify-start gap-1 hover:bg-blue-500 w-full"
                   : "flex items-center justify-center ml-0 p-3"
               }`}
             >
@@ -437,7 +468,7 @@ const Navbar = (props) => {
                           fetchChat(key);
                           updateConversationHistory(conversationsArray);
                         }}
-                        className="relative rounded-md p-1 mt-2 text-sm flex items-center gap-1 w-full max-w-full cursor-pointer hover:bg-gray-500"
+                        className="relative rounded-md p-1 mt-2 text-sm flex items-center gap-1 w-full max-w-full cursor-pointer hover:bg-blue-500"
                         onMouseEnter={() => setHoveredIndex(key)}
                         onMouseLeave={() => setHoveredIndex(null)}
                       >

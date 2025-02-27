@@ -9,6 +9,7 @@ import Rate from "../components/popUps/Rate";
 import { HiArrowCircleUp } from "react-icons/hi";
 import { fetchGptAnswer } from "../api/getResponse";
 import { PiThumbsUp, PiThumbsDown } from "react-icons/pi";
+import { FaMicrophoneAlt } from "react-icons/fa";
 import extractPage from "../utils/convertLink";
 import { fetchUserName } from "../api/getName";
 import generateTimestampAndRandomString from "../api/getSession";
@@ -235,15 +236,11 @@ const Screen = (props) => {
       {/* Main Screen before user types */}
       {!userTypes && (
         <div className="flex-1 flex flex-col items-center justify-center ">
-          <div className="rounded-full w-48">
-            <img
-              src={logo}
-              alt="Logo"
-              className="size-24 mx-auto my-auto rounded-full mb-4"
-            />
+          <div className="rounded-full w-20 max-h-full mt-2">
+            <img src={logo} alt="Logo" className="mx-auto my-auto" />
           </div>
           <div>
-            <p className="font-medium text-4xl flex items-center justify-center">
+            <p className="font-medium text-4xl flex items-center justify-center mt-5">
               Chat with OneAsset
             </p>
             <p className="text-md font-medium text-center flex mx-auto justify-center mt-5">
@@ -303,7 +300,7 @@ const Screen = (props) => {
                   >
                     {/* Question */}
                     <div className="justify-end my-2 break-words flex">
-                      <div className="bg-gray-600 text-white p-4 rounded-lg flex overflow-hidden">
+                      <div className="bg-[#0000A0] text-white p-4 rounded-lg flex overflow-hidden">
                         <div className="bg-[#ffffff] rounded-full text-lg  text-black text-center px-2 py-1 h-9">
                           {fullName}
                         </div>
@@ -316,12 +313,8 @@ const Screen = (props) => {
                     {/* Answer */}
                     <div>
                       <div className="flex items-center gap-1 my-2">
-                        <div className="rounded-full self-start w-16">
-                          <img
-                            src={logo}
-                            alt="Logo"
-                            className="size-14 mx-auto my-auto rounded-full"
-                          />
+                        <div className="rounded-full w-6 max-h-full flex self-start">
+                          <img src={logo} alt="Logo" className="" size={6} />
                         </div>
                         <div className="text-black p-4 rounded-lg shadow-md max-w-3xl w-full break-words overflow-hidden whitespace-pre-wrap">
                           {entry.isGenerated &&
@@ -439,7 +432,7 @@ const Screen = (props) => {
                             {entry?.citations &&
                               Object?.keys(entry?.citations)?.length != 0 && (
                                 <button
-                                  className="h-12 w-28 rounded-xl bg-gray-600 hover:bg-[#0053a0] flex items-center justify-center text-[#ffffff] font-medium p-2 "
+                                  className="h-12 w-28 rounded-xl bg-[#0000A0] hover:bg-[#0053a0] flex items-center justify-center text-[#ffffff] font-medium p-2 "
                                   onClick={() => handlePdfToggle(index)}
                                 >
                                   {/* Check if citations available before displaying the button */}
@@ -518,7 +511,7 @@ const Screen = (props) => {
             {isLoading && (
               <div className="flex flex-col items-center gap-1 my-2 max-h-96">
                 <div className="justify-end my-2 w-full max-w-full flex">
-                  <div className="bg-gray-600 text-white p-4 rounded-lg break-words flex max-w-[95%] overflow-hidden">
+                  <div className="bg-[#0000A0] text-white p-4 rounded-lg break-words flex max-w-[95%] overflow-hidden">
                     <div className="bg-[#ffffff] text-black rounded-full text-lg text-center px-2 py-1 h-9">
                       {fullName}
                     </div>
@@ -573,6 +566,19 @@ const Screen = (props) => {
               }}
               ref={textareaRef}
             />
+            <button
+              disabled={isLoading}
+              type="button"
+              onClick={() =>
+                window.open(
+                  "https://genaisbmvpwaeus2devas.azurewebsites.net/",
+                  "_blank"
+                )
+              }
+              className="text-3xl opacity-30 mx-1 text-[#2b5742] my-auto peer-focus:opacity-90 peer-focus:text-[#17102b]"
+            >
+              <FaMicrophoneAlt size={24} />
+            </button>
             <button
               disabled={isLoading}
               type="submit"

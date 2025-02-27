@@ -164,7 +164,7 @@ const App = () => {
             {/* Logo Div */}
             {userTypes && (
               <div className="flex-none ml-2 flex flex-col items-center">
-                <div className="rounded-full w-20 max-h-full mt-2">
+                <div className="rounded-full w-16 max-h-full mt-2">
                   <img src={logo} alt="Logo" className="mx-auto my-auto" />
                 </div>
                 <div>
