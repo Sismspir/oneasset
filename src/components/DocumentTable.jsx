@@ -45,7 +45,7 @@ const DocumentTable = ({ documents, onDelete }) => {
   }, [documents]);
 
   return (
-    <div className="p-7 shadow-lg rounded-xl overflow-hidden w-full max-w-full  mx-auto bg-white">
+    <div className="mt-2 relative top-0 left-0 border-b-2 border-white w-full overflow-x-hidden overflow-y-auto bg-white rounded-3xl z-30">
       {/* Document Table */}
       <table className="w-full border-collapse rounded-lg overflow-hidden">
         <thead>
@@ -97,7 +97,7 @@ const DocumentTable = ({ documents, onDelete }) => {
           </p>
 
           <p className="mb-4">
-            <strong>Owner:</strong> Spyridon Sismanis
+            <strong>Owner:</strong> {selectedDoc.owner}
           </p>
 
           <p className="mb-4">

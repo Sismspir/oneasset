@@ -92,14 +92,17 @@ const HomePage = () => {
           <div className="flex gap-52 xl:gap-44 lg:gap-24 justify-center my-auto pt-4">
             <button
               onClick={() => handleNewChat()}
-              className="bg-[#00D7B9] text-white w-72 2xl:h-14 lg:h-12 text-base rounded-full hover:bg-[#5fe6d4] flex items-center justify-start p-2 shadow-custom-dark shadow-blue-600"
+              className="bg-[#00D7B9] text-white w-76  2xl:h-14 lg:h-12 text-base rounded-full hover:bg-[#7fddc6] flex items-center gap-14 px-2 py-4 shadow-custom-dark shadow-blue-800"
             >
-              <span className="xl:text-lg flex-shrink font-semibold text-center text-nowrap ml-14 ">
+              <span className="xl:text-lg flex-shrink font-semibold text-center text-nowrap ml-10">
                 Start New Chat
               </span>
-              <div className="bg-white text-white text-xl w-10 xl:h-9 lg:h-9 flex items-center justify-center rounded-full ml-14">
+              <div className="bg-white text-white text-xl w-10 h-10 flex items-center justify-center rounded-full ml-1">
                 <span className="flex items-center justify-center">
-                  <FaMessage className="text-[#2b8579] rounded-sm" />
+                  <FaChevronRight
+                    color="#0000A0"
+                    className="shadow-custom-dark shadow-slate-200 bg-none rounded-full"
+                  />
                 </span>
               </div>
             </button>

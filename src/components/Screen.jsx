@@ -2,15 +2,16 @@ import { useState, useEffect, useRef, createContext } from "react";
 import PropTypes from "prop-types";
 import logo from "/packImages/pack.png";
 import Loader from "./Loader";
+import ListItem from "./popUps/ListItem";
 import TextStream from "./TextSteaming";
-import DisplayPdf from "./DisplayPdf";
+import { BsFillPersonFill } from "react-icons/bs";
 import ReactMarkdown from "react-markdown";
 import Rate from "../components/popUps/Rate";
 import { HiArrowCircleUp } from "react-icons/hi";
 import { fetchGptAnswer } from "../api/getResponse";
 import { PiThumbsUp, PiThumbsDown } from "react-icons/pi";
 import { FaMicrophoneAlt } from "react-icons/fa";
-import extractPage from "../utils/convertLink";
+import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import { fetchUserName } from "../api/getName";
 import generateTimestampAndRandomString from "../api/getSession";
 export const PdfContext = createContext(null);
@@ -31,18 +32,16 @@ const Screen = (props) => {
   const startPlaceHolder =
     "Feel free to ask me anything about your documents! How can I assist you?";
   const [placeholder, setPlaceholder] = useState(startPlaceHolder);
-  const [selectedImageSrc, setSelectedImageSrc] = useState(null);
   const chatContainerRef = useRef(null);
-  const stylesQ =
-    "w-1/3 max-w-[24rem] bg-gray-300 hover:bg-gray-200 text-gray-800 font-medium rounded-xl flex gap-10 items-center justify-center shadow-custom-dark cursor-pointer h-[4.5rem] min-h-[4.5rem]";
   const [fullName, setFullname] = useState("");
   const textareaRef = useRef(null);
   const [responseIsComplete, setResponseIsComplete] = useState(null);
 
-  const handlePdfToggle = (index) => {
+  const handlePdfToggle = (index, itemOpen) => {
+    console.log(`This is the itemOpen ${itemOpen}`);
     setConvHistory((prevHistory) =>
       prevHistory.map((entry, i) =>
-        i === index ? { ...entry, isPdfOpen: !entry.isPdfOpen } : entry
+        i === index ? { ...entry, [itemOpen]: !entry?.[`${itemOpen}`] } : entry
       )
     );
   };
@@ -88,7 +87,11 @@ const Screen = (props) => {
             image: result?.image,
             citations: result?.citations,
             isGenerated: true, // Mark this response as newly generated
-            isPdfOpen: false,
+            isExplainabilityOpen: false,
+            webSearchOpen: false,
+            sqlQueryOpen: false,
+            tableOutputOpen: false,
+            citationsOpen: false,
             message_id: result?.message_id,
           },
         ];
@@ -126,11 +129,6 @@ const Screen = (props) => {
     }
   };
 
-  const handleQuestionClick = (question) => {
-    const syntheticEvent = { preventDefault: () => {} };
-    handleInputSubmit(syntheticEvent, question);
-  };
-
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
@@ -140,10 +138,6 @@ const Screen = (props) => {
 
   const handleResponseComplete = (value) => {
     setResponseIsComplete(value);
-  };
-
-  const handleClose = () => {
-    setSelectedImageSrc(null);
   };
 
   const handleThumbsDownClick = (index, showRate) => {
@@ -191,7 +185,7 @@ const Screen = (props) => {
     }, 6000);
   };
 
-  const handleThumbsUpClick = async (index, showRate, thumbsUpClicked) => {
+  const handleThumbsUpClick = async (index, showRate) => {
     setConvHistory((prevHistory) =>
       prevHistory.map((entry, i) =>
         i === index
@@ -251,34 +245,6 @@ const Screen = (props) => {
               Try one of the examples below or type your own prompt!
             </p>
           </div>
-          {/* <div className="flex items-center justify-center gap-4 mb-4 w-full">
-            <div
-              className={stylesQ}
-              onClick={() =>
-                handleQuestionClick(
-                  "What are the Design for Circularity (D4C) Guidelines?"
-                )
-              }
-            >
-              Preselected question 1.
-            </div>
-            <div
-              className={stylesQ}
-              onClick={() =>
-                handleQuestionClick("What about reusable packaging in B2B?")
-              }
-            >
-              Preselected question 2.
-            </div>
-            <div
-              className={stylesQ}
-              onClick={() =>
-                handleQuestionClick("What are the main Packaging Challenges?")
-              }
-            >
-              Preselected question 3.
-            </div>
-          </div> */}
         </div>
       )}
 
@@ -292,12 +258,8 @@ const Screen = (props) => {
             {/* Iterate over convHistory to display all questions and answers */}
             {convHistory?.map((entry, index) => (
               <div key={index}>
-                <div className="flex">
-                  <div
-                    className={`mb-4 flex flex-col ${
-                      entry.isPdfOpen ? "w-1/2" : "w-full"
-                    }`}
-                  >
+                <div className="flex flex-col">
+                  <div className={`mb-4 flex flex-col w-full`}>
                     {/* Question */}
                     <div className="justify-end my-2 break-words flex">
                       <div className="bg-[#0000A0] text-white p-4 rounded-lg flex overflow-hidden">
@@ -311,7 +273,7 @@ const Screen = (props) => {
                     </div>
 
                     {/* Answer */}
-                    <div>
+                    <div className="">
                       <div className="flex items-center gap-1 my-2">
                         <div className="rounded-full w-6 max-h-full flex self-start">
                           <img src={logo} alt="Logo" className="" size={6} />
@@ -428,81 +390,138 @@ const Screen = (props) => {
                               />
                             </div>
                           )}
-                          <div className="flex gap-4 mt-5 items-center">
+                          <div className="flex flex-col gap-2 mt-5">
                             {entry?.citations &&
                               Object?.keys(entry?.citations)?.length != 0 && (
-                                <button
-                                  className="h-12 w-28 rounded-xl bg-[#0000A0] hover:bg-[#0053a0] flex items-center justify-center text-[#ffffff] font-medium p-2 "
-                                  onClick={() => handlePdfToggle(index)}
-                                >
-                                  {/* Check if citations available before displaying the button */}
-                                  {entry?.isPdfOpen ? "Hide PDF" : "Show PDF"}
-                                </button>
-                              )}
-                            {/* {entry?.image != null &&
-                              entry.image !== "" &&
-                              entry.image !== "nan" &&
-                              entry.image !== "No Image" && (
-                                <div>
-                                  {selectedImageSrc ? (
-                                    <div
-                                      className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50 cursor-pointer"
-                                      onClick={handleClose}
-                                    >
-                                      <img
-                                        src={selectedImageSrc}
-                                        className="max-w-4xl max-h-4xl shadow-lg rounded-lg"
-                                      />
-                                    </div>
-                                  ) : (
-                                    <div>
-                                      <div
-                                        onClick={() => {
-                                          setSelectedImageSrc(
-                                            `./packImages/${extractPage(
-                                              entry?.image
-                                            )}`
-                                          );
-                                        }}
-                                        className="financial-image-container hover:cursor-pointer"
-                                      >
-                                        <img
-                                          src={`./packImages/${extractPage(
-                                            entry?.image
-                                          )}`}
-                                          alt={``}
-                                          style={{
-                                            width: "170px",
-                                            height: "100px",
-                                          }}
-                                        />
-                                      </div>
-                                    </div>
-                                  )}
+                                <div className="h-12 w-full rounded-xl bg-gray-100  flex items-center justify-center text-[#12273b] font-medium p-2">
+                                  <div className="mx-2">
+                                    <BsFillPersonFill size={22} />
+                                  </div>
+                                  <div className="flex-1">Explainability</div>
+                                  <button
+                                    className="mx-2"
+                                    onClick={() =>
+                                      handlePdfToggle(
+                                        index,
+                                        "isExplainabilityOpen"
+                                      )
+                                    }
+                                  >
+                                    {entry.isExplainabilityOpen ? (
+                                      <SlArrowUp size={18} />
+                                    ) : (
+                                      <SlArrowDown size={18} />
+                                    )}
+                                  </button>
                                 </div>
-                              )} */}
+                              )}
+
+                            {/* Display Citations if open */}
+                            <div className="flex flex-col gap-4 mt-2">
+                              <div className="flex flex-col gap-4 mt-2">
+                                {entry.isExplainabilityOpen && (
+                                  <div className="flex flex-col relative pl-5">
+                                    {/* Vertical Line */}
+                                    <div className="absolute left-1.5 top-0 h-full w-[2px] bg-gray-300"></div>
+
+                                    {/* List Items */}
+                                    <ListItem
+                                      title="Show Sql Query"
+                                      isOpen={entry.sqlQueryOpen}
+                                      onClick={() =>
+                                        handlePdfToggle(index, "sqlQueryOpen")
+                                      }
+                                    />
+
+                                    {/* Display Sql Query section */}
+                                    {entry?.sqlQueryOpen && (
+                                      <div className="flex flex-col w-full items-start justify-start bg-gray-100 p-3 rounded-lg shadow">
+                                        <p className="font-semibold">
+                                          Sql Query:
+                                        </p>
+                                      </div>
+                                    )}
+
+                                    <ListItem
+                                      title="Show Web Search"
+                                      isOpen={entry.webSearchOpen}
+                                      onClick={() =>
+                                        handlePdfToggle(index, "webSearchOpen")
+                                      }
+                                    />
+
+                                    {/* Display Deep Research section */}
+                                    {entry?.webSearchOpen && (
+                                      <div className="flex flex-col w-full items-start justify-start bg-gray-100 p-3 rounded-lg shadow">
+                                        <p className="font-semibold">
+                                          Deep Research Insights:
+                                        </p>
+                                        {/* Add deep research details here */}
+                                        <p>
+                                          Additional in-depth research about the
+                                          topic...
+                                        </p>
+                                      </div>
+                                    )}
+
+                                    <ListItem
+                                      title="Show Table"
+                                      isOpen={entry.tableOutputOpen}
+                                      onClick={() =>
+                                        handlePdfToggle(
+                                          index,
+                                          "tableOutputOpen"
+                                        )
+                                      }
+                                    />
+
+                                    {/* Display Explainability section */}
+                                    {entry?.tableOutputOpen && (
+                                      <div className="flex flex-col w-full items-start justify-start bg-gray-100 p-3 rounded-lg shadow">
+                                        <p className="font-semibold">Table:</p>
+                                        {/* Add the explainability content here */}
+                                      </div>
+                                    )}
+
+                                    <ListItem
+                                      title="Show Citations"
+                                      isOpen={entry.citationsOpen}
+                                      onClick={() =>
+                                        handlePdfToggle(index, "citationsOpen")
+                                      }
+                                      isLast={true} // Last item removes bottom line
+                                    />
+
+                                    {/* Display Citations section */}
+                                    {entry?.citationsOpen && (
+                                      <div className="flex flex-col w-full items-start justify-start">
+                                        {Object.entries(entry.citations).map(
+                                          ([citationKey, pages]) => (
+                                            <div
+                                              key={citationKey}
+                                              className="mb-2"
+                                            >
+                                              <span className="font-semibold">
+                                                {citationKey.replace(/_/g, " ")}
+                                                :
+                                              </span>
+                                              <span className="ml-2">
+                                                Pages {pages.join(", ")}
+                                              </span>
+                                            </div>
+                                          )
+                                        )}
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  {/* Display PDF section if open */}
-                  {entry.isPdfOpen && (
-                    <div
-                      className={`flex flex-col ${
-                        entry.IsPdfOpen ? "w-1/2" : "w-full"
-                      } items-start justify-start`}
-                    >
-                      <DisplayPdf
-                        citations={entry?.citations?.["D4C Guidelines"] ?? []}
-                        iso={entry?.citations?.["ISO"] ?? []}
-                        ADDENDUM={entry?.citations?.["Claims Addendum"] ?? []}
-                        ClaimsAddendum={
-                          entry?.citations?.["Claims Protocol"] ?? []
-                        }
-                      />
-                    </div>
-                  )}
                 </div>
               </div>
             ))}

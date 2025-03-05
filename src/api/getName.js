@@ -8,7 +8,7 @@ export const fetchUserName = async () => {
     try {
       
       const response = await axios.get(`${BASE_URL}/api/user`);
-      return  window.BASE_URL ? (response.data.name == null ?  "spyridon.sisman" : response.data.name) : "spyridon.sisman"; 
+      return  window.BASE_URL ? (response.data.name == null ?  "spyridon.sisman" : response.data.name) : "spyridon.sismanis@gmail.com"; 
       // return "spyridon.sisman"
     } catch (error) {
       console.error('Error fetching the user name:', error);

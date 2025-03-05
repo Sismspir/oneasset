@@ -434,7 +434,7 @@ const Navbar = (props) => {
         {/* ========= HISTORY ========= */}
         {location.pathname == "/chat" && (
           <li
-            className={`cursor-pointer ${!navbarOpen && "hover:bg-gray-500"}`}
+            className={`cursor-pointer ${!navbarOpen && "hover:bg-blue-500"}`}
           >
             <div
               className={`cursor-pointer ${

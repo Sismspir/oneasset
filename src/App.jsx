@@ -16,10 +16,12 @@ import SmartSummary from "./components/SmartSummary";
 import Userinfo from "./components/Userinfo";
 import SmartComparison from "./components/SmartComparison";
 import Adherence from "./components/Adherence";
+import capitalizeName from "./utils/getNameFromEmail";
 
 const App = () => {
   const location = useLocation();
   const [userName, setUsername] = useState("");
+  const [userNameUpload, setUserNameUpload] = useState("");
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [userTypes, setUserTypes] = useState(false);
   const [navItemsOpen, setNavItemsOpen] = useState({
@@ -95,11 +97,14 @@ const App = () => {
     try {
       result = await fetchUserName();
       setUsername(result?.slice(0, 15));
+      setUserNameUpload(capitalizeName(result));
       console.log(
         ` just set the username ${result?.slice(
           0,
           15
-        )} from get Name function and the result of the getName request is ${result}`
+        )} from get Name function and the result of the getName request is ${result} AND THIS IS UPLOAD ${capitalizeName(
+          result
+        )}`
       );
       return result;
     } catch (err) {
@@ -221,7 +226,9 @@ const App = () => {
                 userName={userName}
               />
             )}
-            {location.pathname === "/upload" && <Upload />}
+            {location.pathname === "/upload" && (
+              <Upload userName={userNameUpload} />
+            )}
             {location.pathname === "/smartSummary" && <SmartSummary />}
           </div>
         </div>

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-const Upload = () => {
+const Upload = (props) => {
+  const { userName } = props;
   const BASE_URL = window.BASE_URL || "http://localhost:8000";
   const [uploading, setUploading] = useState(false);
   const [newArticle, setNewArticle] = useState({
@@ -21,10 +23,10 @@ const Upload = () => {
     }
 
     setUploading(true);
-
+    console.log(`user name is ${userName}`);
     const formData = new FormData();
     formData.append("file", newArticle.file);
-
+    formData.append("pdf_owner", userName);
     try {
       const response = await fetch(`${BASE_URL}/process_pdf`, {
         method: "POST",
@@ -129,6 +131,10 @@ const Upload = () => {
       </div>
     </div>
   );
+};
+
+Upload.propTypes = {
+  userName: PropTypes.string.isRequired,
 };
 
 export default Upload;

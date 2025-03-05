@@ -31,7 +31,7 @@ const UserGuidePopUp = () => {
   });
 
   return (
-    <div className="m-1 absolute z-20 top-0 left-0 h-[85vh] w-fit overflow-x-hidden overflow-y-auto bg-white rounded-3xl border-2 border-green-600">
+    <div className="m-1 absolute z-20 top-0 left-0 h-[85vh] w-fit overflow-x-hidden overflow-y-auto bg-white rounded-3xl border-2 border-blue-600">
       <div className="m-3 rounded-md mx-auto p-2 bg-white">
         <div className="flex items-center justify-center text-2xl ">
           Hello,&nbsp;

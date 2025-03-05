@@ -92,7 +92,7 @@ const SmartComparison = () => {
   };
 
   return (
-    <div className="mt-2 absolute z-20 top-0 left-0 h-[85vh] w-full overflow-x-hidden overflow-y-auto bg-white rounded-3xl ">
+    <div className="mt-2 relative top-0 left-0 h-[90.65vh] w-full overflow-x-hidden overflow-y-auto bg-white rounded-3xl">
       <h1 className="text-3xl font-bold text-[#19315e] mt-4 mb-8 text-center">
         Smart Comparison
       </h1>
