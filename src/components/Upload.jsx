@@ -6,6 +6,7 @@ const Upload = (props) => {
   const { userName } = props;
   const BASE_URL = window.BASE_URL || "http://localhost:8000";
   const [uploading, setUploading] = useState(false);
+  const [documentType, setDocumentType] = useState("Classic");
   const [newArticle, setNewArticle] = useState({
     title: "",
     file: null,
@@ -23,10 +24,12 @@ const Upload = (props) => {
     }
 
     setUploading(true);
-    console.log(`user name is ${userName}`);
     const formData = new FormData();
     formData.append("file", newArticle.file);
+    console.log(`THIS IS THE PDF OWNER !!!!!!!!!! ${userName}`);
     formData.append("pdf_owner", userName);
+    formData.append("document_type", documentType);
+    console.log(`This is the document_type ${documentType}`);
     try {
       const response = await fetch(`${BASE_URL}/process_pdf`, {
         method: "POST",
@@ -37,20 +40,18 @@ const Upload = (props) => {
         throw new Error("Failed to start processing");
       }
 
-      // Polling to check progress every 3 seconds
       const checkProgress = async () => {
         try {
           const progressResponse = await fetch(`${BASE_URL}/progress`);
           const progressData = await progressResponse.json();
 
           if (progressData.progress < 100) {
-            setTimeout(checkProgress, 3000); // Poll every 3 seconds
+            setTimeout(checkProgress, 3000);
           } else {
-            // Stop polling when upload is complete
             setTimeout(() => {
               setUploading(false);
               alert("The document was successfully uploaded");
-            }, 30000);
+            }, 60000);
           }
         } catch (error) {
           console.error("Error fetching progress:", error);
@@ -58,7 +59,7 @@ const Upload = (props) => {
         }
       };
 
-      checkProgress(); // Start polling
+      checkProgress();
     } catch (error) {
       alert(`Failed to upload article: ${error.message}`);
       setUploading(false);
@@ -103,6 +104,36 @@ const Upload = (props) => {
               </div>
             </div>
           </div>
+
+          {/* Toggle Button */}
+          <div className="flex justify-center items-center mb-4">
+            <div className="flex items-center justify-center text-md font-medium text-gray-700 mr-3 whitespace-nowrap">
+              Pick your document type:
+            </div>
+            <div className="flex h-10 rounded-lg shadow-md border border-gray-400 overflow-hidden">
+              <button
+                onClick={() => setDocumentType("Classic")}
+                className={`w-24 flex p-3 justify-center items-center font-semibold transition duration-200 ${
+                  documentType === "Classic"
+                    ? "bg-green-500 text-white italic"
+                    : "bg-gray-200 text-gray-400"
+                }`}
+              >
+                Classic
+              </button>
+              <button
+                onClick={() => setDocumentType("Complex")}
+                className={`w-24 flex p-3 justify-center items-center font-semibold transition duration-200 ${
+                  documentType === "Complex"
+                    ? "bg-green-500 text-white italic"
+                    : "bg-gray-200 text-gray-400"
+                }`}
+              >
+                Complex
+              </button>
+            </div>
+          </div>
+
           <div className="flex justify-between">
             <button
               onClick={handleUpload}
@@ -121,7 +152,6 @@ const Upload = (props) => {
             </button>
           </div>
 
-          {/* Moving Loader Bar */}
           {uploading && (
             <div className="w-full bg-gray-300 h-2 rounded-full mt-5 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-1/3 h-2 bg-green-600 animate-pingLoader"></div>

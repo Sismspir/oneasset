@@ -26,11 +26,20 @@ const HomePage = () => {
     navigate("/smartSummary");
   };
 
+  function capitalize(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }
+
   const getName = async () => {
     try {
       const result = await fetchUserName();
-      const name = result.split(".")[0];
-      setUsername(name.charAt(0).toUpperCase() + name.slice(1));
+      console.log(result);
+      const match = result.match(/^([a-zA-Z]+)\.([a-zA-Z]+)@[\w.-]+$/);
+      if (match) {
+        const fullName = `${capitalize(match[1])} ${capitalize(match[2])}`;
+        setUsername(fullName);
+        console.log(fullName); // Spyridon Sismanis
+      }
       setNameForGuide(result);
       return result;
     } catch (err) {
@@ -40,7 +49,7 @@ const HomePage = () => {
 
   const getDocuments = async () => {
     try {
-      const result = await getDocumentNames();
+      const result = await getDocumentNames(userName);
       return result;
     } catch (err) {
       console.log(err);
@@ -48,20 +57,20 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    getName();
-    console.log("Get name just executed!");
-  }, []);
-
-  useEffect(() => {
     getDocuments()
       .then((documents) => {
         setDocumentNames(documents);
-        console.log("Documents AVAILABLE:", documents);
+        console.log(
+          "Documents AVAILABLE:",
+          documents,
+          "for the user",
+          userName
+        );
       })
       .catch((err) => {
         console.error("Error fetching documents:", err);
       });
-  }, []);
+  }, [userName]);
 
   useEffect(() => {
     getName();

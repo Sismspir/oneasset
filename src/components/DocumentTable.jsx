@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import ReactMarkdown from "react-markdown";
+import { toggleAvailability } from "../api/toggleAvailability";
 import { deleteDocument } from "../api/deleteDocument";
 import { getDocuments } from "../api/getDocuments";
 
-const DocumentTable = ({ documents, onDelete }) => {
+const DocumentTable = ({ documents, onDelete, userName }) => {
   const [docInfo, setDocInfo] = useState();
   const [selectedDoc, setSelectedDoc] = useState(null);
 
@@ -33,8 +34,12 @@ const DocumentTable = ({ documents, onDelete }) => {
             const data = await getDocuments(doc);
             return data || { filename: doc, error: "No info available" };
           })
+          // .filter(
+          //   (doc, index, self) =>
+          //     index === self.findIndex((d) => d.file_name === doc.file_name)
+          // )
         );
-
+        console.log(`THIS IS DOC INFO ${Object.keys(fetchedDocs[0])}`);
         setDocInfo(fetchedDocs);
       } catch (error) {
         console.error("Error fetching document info:", error);
@@ -51,7 +56,8 @@ const DocumentTable = ({ documents, onDelete }) => {
         <thead>
           <tr className="bg-gray-100 text-gray-700">
             <th className="py-3 px-4 text-left">Document Name</th>
-            <th className="py-3 px-4 text-center">Actions</th>
+            <th className="py-3 px-4 text-center">Availability</th>
+            <th className="py-3 px-4 text-center">Deletion </th>
           </tr>
         </thead>
         <tbody>
@@ -63,16 +69,53 @@ const DocumentTable = ({ documents, onDelete }) => {
                 onClick={() => setSelectedDoc(doc)}
               >
                 <td className="py-3 px-4">{doc.file_name}</td>
-                <td className="py-3 px-4 text-center">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(doc.file_name);
-                    }}
-                    className="text-red-500 hover:text-red-700 transition-all"
-                  >
-                    X
-                  </button>
+                <td className="py-3 text-center">
+                  {userName === doc.owner && (
+                    <button
+                      onClick={async (e) => {
+                        e.stopPropagation();
+                        const newAvailability =
+                          doc.availability === "PUBLIC" ? "PRIVATE" : "PUBLIC";
+                        try {
+                          await toggleAvailability(
+                            doc.file_name,
+                            newAvailability
+                          );
+                          setDocInfo((prev) =>
+                            prev.map((d, i) =>
+                              i === index
+                                ? { ...d, availability: newAvailability }
+                                : d
+                            )
+                          );
+                        } catch (err) {
+                          console.error("Toggle failed", err);
+                          alert("Failed to toggle availability.");
+                        }
+                      }}
+                      className={`w-24 flex justify-center items-center px-3 py-1 text-sm font-semibold rounded-lg shadow-md transition duration-200 ${
+                        doc.availability === "PUBLIC"
+                          ? "bg-green-500 text-white italic"
+                          : "bg-gray-200 text-gray-400"
+                      }`}
+                    >
+                      {doc.availability}
+                    </button>
+                  )}
+                </td>
+
+                <td className="py-3 text-center">
+                  {userName == doc.owner && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(doc.file_name);
+                      }}
+                      className="text-red-500 hover:text-red-700 transition-all"
+                    >
+                      X
+                    </button>
+                  )}
                 </td>
               </tr>
             ))
@@ -98,6 +141,10 @@ const DocumentTable = ({ documents, onDelete }) => {
 
           <p className="mb-4">
             <strong>Owner:</strong> {selectedDoc.owner}
+          </p>
+
+          <p className="mb-4">
+            <strong>Availability:</strong> {selectedDoc.availability}
           </p>
 
           <p className="mb-4">
@@ -145,6 +192,7 @@ const DocumentTable = ({ documents, onDelete }) => {
 DocumentTable.propTypes = {
   documents: PropTypes.arrayOf(PropTypes.string).isRequired,
   onDelete: PropTypes.func.isRequired,
+  userName: PropTypes.string.isRequired,
 };
 
 export default DocumentTable;

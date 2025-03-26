@@ -10,8 +10,11 @@ const ListItem = (props) => {
 
       {/* Button */}
       <button
-        className="h-8 w-full rounded-xl flex items-center justify-between text-[#12273b] font-medium p-2 px-4 "
+        className={`h-8 w-full rounded-xl flex items-center justify-between ${
+          title != "Text documents" ? "text-gray-400" : "text-[#12273b]"
+        }  font-medium p-2 px-4`}
         onClick={onClick}
+        disabled={title != "Text documents"}
       >
         <div className="">{title}</div>
         {isOpen ? <SlArrowUp size={18} /> : <SlArrowDown size={18} />}

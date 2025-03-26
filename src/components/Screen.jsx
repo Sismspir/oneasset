@@ -423,6 +423,36 @@ const Screen = (props) => {
                                   <div className="flex flex-col relative pl-5">
                                     {/* Vertical Line */}
                                     <div className="absolute left-1.5 top-0 h-full w-[2px] bg-gray-300"></div>
+                                    <ListItem
+                                      title="Text documents"
+                                      isOpen={entry.citationsOpen}
+                                      onClick={() =>
+                                        handlePdfToggle(index, "citationsOpen")
+                                      }
+                                      isLast={true} // Last item removes bottom line
+                                    />
+
+                                    {/* Display Citations section */}
+                                    {entry?.citationsOpen && (
+                                      <div className="flex flex-col w-full items-start justify-start">
+                                        {Object.entries(entry.citations).map(
+                                          ([citationKey, pages]) => (
+                                            <div
+                                              key={citationKey}
+                                              className="mb-2"
+                                            >
+                                              <span className="font-semibold">
+                                                {citationKey.replace(/_/g, " ")}
+                                                :
+                                              </span>
+                                              <span className="ml-2">
+                                                Pages {pages.join(", ")}
+                                              </span>
+                                            </div>
+                                          )
+                                        )}
+                                      </div>
+                                    )}
 
                                     {/* List Items */}
                                     <ListItem
@@ -480,37 +510,6 @@ const Screen = (props) => {
                                       <div className="flex flex-col w-full items-start justify-start bg-gray-100 p-3 rounded-lg shadow">
                                         <p className="font-semibold">Table:</p>
                                         {/* Add the explainability content here */}
-                                      </div>
-                                    )}
-
-                                    <ListItem
-                                      title="Show Citations"
-                                      isOpen={entry.citationsOpen}
-                                      onClick={() =>
-                                        handlePdfToggle(index, "citationsOpen")
-                                      }
-                                      isLast={true} // Last item removes bottom line
-                                    />
-
-                                    {/* Display Citations section */}
-                                    {entry?.citationsOpen && (
-                                      <div className="flex flex-col w-full items-start justify-start">
-                                        {Object.entries(entry.citations).map(
-                                          ([citationKey, pages]) => (
-                                            <div
-                                              key={citationKey}
-                                              className="mb-2"
-                                            >
-                                              <span className="font-semibold">
-                                                {citationKey.replace(/_/g, " ")}
-                                                :
-                                              </span>
-                                              <span className="ml-2">
-                                                Pages {pages.join(", ")}
-                                              </span>
-                                            </div>
-                                          )
-                                        )}
                                       </div>
                                     )}
                                   </div>

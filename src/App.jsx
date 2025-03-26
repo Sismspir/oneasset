@@ -22,7 +22,7 @@ const App = () => {
   const location = useLocation();
   const [userName, setUsername] = useState("");
   const [userNameUpload, setUserNameUpload] = useState("");
-  const [navbarOpen, setNavbarOpen] = useState(false);
+  const [navbarOpen, setNavbarOpen] = useState(true);
   const [userTypes, setUserTypes] = useState(false);
   const [navItemsOpen, setNavItemsOpen] = useState({
     Chat: false,
